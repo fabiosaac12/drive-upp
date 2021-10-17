@@ -4,6 +4,31 @@ export const light: Theme = {
   name: 'light',
   spacing: (n = 1) => 7 * n,
   radius: (n = 1) => 10 * n,
+  text: {
+    title: {
+      fontSize: 21,
+    },
+    title2: {
+      fontSize: 19,
+    },
+    subtitle: {
+      fontSize: 17,
+    },
+    subtitle2: {
+      fontSize: 16,
+    },
+    body: {
+      fontSize: 15,
+    },
+    body2: {
+      fontSize: 14,
+    },
+    button: {
+      fontSize: 15,
+      textTransform: 'uppercase',
+      fontWeight: '500',
+    },
+  },
   palette: {
     greys: {
       100: '#f0f0f0',

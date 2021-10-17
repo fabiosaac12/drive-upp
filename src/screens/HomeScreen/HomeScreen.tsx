@@ -11,7 +11,9 @@ export const HomeScreen: FC = withLayout(() => {
 
   return (
     <View style={styles.container}>
-      <Text>{messages.greeting}</Text>
+      <Text variant="title" color="secondary">
+        {messages.greeting}
+      </Text>
     </View>
   );
 });
