@@ -1,4 +1,4 @@
-import { defineMessages } from '../../providers/LanguageProvider';
+import { defineMessages } from '../../providers/Language';
 
 export const useMessages = defineMessages({
   greeting: {
