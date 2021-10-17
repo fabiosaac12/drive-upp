@@ -1,11 +1,11 @@
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { MainStackNavigator } from './navigation/MainStackNavigator';
-import { LanguageProvider } from './providers/Language';
-import { LoaderProvider } from './providers/Loader';
-import { ModalProvider } from './providers/Modal';
-import { PermissionsProvider } from './providers/Permissions';
-import { ThemeProvider } from './providers/Theme';
+import { MainStackNavigator } from 'navigation/MainStackNavigator';
+import { LanguageProvider } from 'providers/Language';
+import { LoaderProvider } from 'providers/Loader';
+import { ModalProvider } from 'providers/Modal';
+import { PermissionsProvider } from 'providers/Permissions';
+import { ThemeProvider } from 'providers/Theme';
 
 export const App = () => (
   <SafeAreaProvider>
