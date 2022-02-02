@@ -9,7 +9,7 @@ import { ThemeProvider } from 'providers/Theme';
 
 export const App = () => (
   <SafeAreaProvider>
-    <LanguageProvider defaultLanguage="en">
+    <LanguageProvider defaultLanguage="es">
       <LoaderProvider>
         <PermissionsProvider>
           <ThemeProvider defaultTheme="light">

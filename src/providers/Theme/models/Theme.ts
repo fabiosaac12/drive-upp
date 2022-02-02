@@ -40,6 +40,10 @@ export interface Theme {
       700: string;
       800: string;
       900: string;
+      light: string;
+      main: string;
+      dark: string;
+      contrast: string;
     };
     secondary: {
       100: string;
@@ -51,6 +55,10 @@ export interface Theme {
       700: string;
       800: string;
       900: string;
+      light: string;
+      main: string;
+      dark: string;
+      contrast: string;
     };
     danger: {
       100: string;
@@ -62,6 +70,10 @@ export interface Theme {
       700: string;
       800: string;
       900: string;
+      light: string;
+      main: string;
+      dark: string;
+      contrast: string;
     };
     success: {
       100: string;
@@ -73,6 +85,10 @@ export interface Theme {
       700: string;
       800: string;
       900: string;
+      light: string;
+      main: string;
+      dark: string;
+      contrast: string;
     };
     greys: {
       100: string;
@@ -84,6 +100,9 @@ export interface Theme {
       700: string;
       800: string;
       900: string;
+      light: string;
+      main: string;
+      dark: string;
     };
     white: string;
     black: string;
@@ -97,17 +116,9 @@ export interface Theme {
       700: string;
       800: string;
       900: string;
-    };
-    contrast: {
-      100: string;
-      200: string;
-      300: string;
-      400: string;
-      500: string;
-      600: string;
-      700: string;
-      800: string;
-      900: string;
+      light: string;
+      main: string;
+      dark: string;
     };
     text: {
       primary: string;

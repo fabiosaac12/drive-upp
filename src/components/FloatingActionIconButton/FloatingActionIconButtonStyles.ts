@@ -26,13 +26,13 @@ export const useStyles = makeStyles(
         justifyContent: 'center',
         backgroundColor:
           variant === 'outlined'
-            ? theme.palette.background[100]
+            ? theme.palette.background.main
             : disabled
-            ? theme.palette.greys[500]
-            : theme.palette[color][500],
+            ? theme.palette.greys.main
+            : theme.palette[color].main,
         borderColor: disabled
-          ? theme.palette.greys[500]
-          : theme.palette[color][500],
+          ? theme.palette.greys.main
+          : theme.palette[color].main,
         borderWidth: 2,
         ...theme.shadows[4],
       },
@@ -41,8 +41,8 @@ export const useStyles = makeStyles(
           variant === 'filled'
             ? theme.palette.text.button
             : disabled
-            ? theme.palette.greys[500]
-            : theme.palette[color][500],
+            ? theme.palette.greys.main
+            : theme.palette[color].main,
       },
     }),
 );

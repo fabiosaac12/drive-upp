@@ -10,7 +10,7 @@ export const useStyles = makeStyles((theme) =>
       backgroundColor: 'rgba(0, 0, 0, 0.3)',
     },
     container: {
-      backgroundColor: theme.palette.background[200],
+      backgroundColor: theme.palette.background.dark,
       borderRadius: 32,
       borderBottomLeftRadius: 0,
       borderBottomRightRadius: 0,
