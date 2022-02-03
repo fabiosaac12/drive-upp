@@ -1,15 +1,19 @@
 import { StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { makeStyles } from '../../providers/Theme';
 
-export const useStyles = makeStyles((theme) =>
-  StyleSheet.create({
+export const useStyles = makeStyles((theme) => {
+  const insets = useSafeAreaInsets();
+
+  return StyleSheet.create({
     scrollView: {
       flexGrow: 1,
     },
     container: {
       flex: 1,
       padding: theme.spacing(2),
-      justifyContent: 'center',
+      paddingTop: insets.top + theme.spacing(2),
+      paddingBottom: insets.bottom + theme.spacing(2),
       alignItems: 'center',
     },
     row: {
@@ -20,5 +24,5 @@ export const useStyles = makeStyles((theme) =>
     menuItem: {
       margin: theme.spacing(1),
     },
-  }),
-);
+  });
+});

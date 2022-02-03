@@ -4,7 +4,9 @@ export const getItem = async <T>(key: string): Promise<T | undefined> => {
   try {
     const value = (await AsyncStorage.getItem(key)) as T | null;
 
-    if (!value) return;
+    if (!value) {
+      return;
+    }
 
     try {
       return JSON.parse(value as unknown as string);

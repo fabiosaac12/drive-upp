@@ -4,18 +4,14 @@ import { StyleSheet } from 'react-native';
 export const useStyles = makeStyles((theme) =>
   StyleSheet.create({
     container: {
+      borderRadius: theme.radius(1.5),
+      height: 130,
+      width: 250,
+      backgroundColor: theme.palette.white,
+      ...theme.shadows[1],
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: theme.palette.white,
-      width: 160,
-      height: 160,
-      borderRadius: theme.radius(1.5),
-      ...theme.shadows[1],
-    },
-    icon: {
-      height: 100,
-      width: 120,
-      resizeMode: 'contain',
+      marginBottom: theme.spacing(4),
     },
   }),
 );

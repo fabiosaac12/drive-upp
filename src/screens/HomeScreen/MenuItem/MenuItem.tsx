@@ -17,7 +17,11 @@ export const MenuItem: FC<Props> = ({ label, icon, style, ...props }) => {
   const styles = useStyles();
 
   return (
-    <TouchableOpacity style={[styles.container, style]} {...props}>
+    <TouchableOpacity
+      activeOpacity={0.7}
+      style={[styles.container, style]}
+      {...props}
+    >
       <Image source={icon} style={styles.icon} />
       <Text variant="subtitle2" color="primary">
         {label}

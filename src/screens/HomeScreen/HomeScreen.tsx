@@ -1,4 +1,6 @@
+/* eslint-disable react-native/no-inline-styles */
 import { images } from 'assets/images';
+import { AdvertisingBanner } from 'components/AdvertisingBanner';
 import React, { FC } from 'react';
 import { ScrollView, View } from 'react-native';
 import { withLayout } from '../../hoc';
@@ -20,6 +22,10 @@ export const HomeScreen: FC = withLayout(() => {
   return (
     <ScrollView contentContainerStyle={styles.scrollView}>
       <View style={styles.container}>
+        <View style={{ flex: 1 }} />
+
+        <AdvertisingBanner />
+
         <View style={styles.row}>
           <MenuItem
             icon={icons.assistance}
@@ -44,6 +50,8 @@ export const HomeScreen: FC = withLayout(() => {
             style={styles.menuItem}
           />
         </View>
+
+        <View style={{ flex: 2 }} />
       </View>
     </ScrollView>
   );
