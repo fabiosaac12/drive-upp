@@ -16,7 +16,10 @@ export const useForm = () => {
 
   const validationSchema = yup.object({
     name: yup.string().required(messages.requiredError),
-    email: yup.string().required(messages.requiredError),
+    email: yup
+      .string()
+      .email(messages.emailError)
+      .required(messages.requiredError),
     password: yup.string().required(messages.requiredError),
     passwordConfirmation: yup
       .string()

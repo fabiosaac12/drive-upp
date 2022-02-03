@@ -17,7 +17,7 @@ export const LoginForm = () => {
         autoCapitalize="none"
         keyboardType="email-address"
         value={form.values.email}
-        error={form.errors.email}
+        error={form.touched.email ? form.errors.email : undefined}
         onChangeText={(value) => form.setFieldValue('email', value)}
         label={messages.emailLabel}
         placeholder={messages.emailPlaceholder}
@@ -25,7 +25,7 @@ export const LoginForm = () => {
       <TextField
         secureTextEntry={true}
         value={form.values.password}
-        error={form.errors.password}
+        error={form.touched.password ? form.errors.password : undefined}
         onChangeText={(value) => form.setFieldValue('password', value)}
         label={messages.passwordLabel}
         placeholder={messages.passwordPlaceholder}

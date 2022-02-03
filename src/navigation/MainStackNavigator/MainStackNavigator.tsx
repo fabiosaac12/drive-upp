@@ -9,11 +9,14 @@ import { WelcomeScreen } from 'screens/WelcomeScreen';
 import { SignUpScreen } from 'screens/SignUpScreen';
 import { CustomHeader } from './CustomHeader';
 import { LoginScreen } from 'screens/LoginScreen';
+import { useAuth } from 'providers/Auth';
+import { HomeScreen } from 'screens/HomeScreen';
 
 export type MainStackNavigatorParams = {
   welcome: undefined;
   signUp: undefined;
   login: undefined;
+  home: undefined;
 };
 
 const Stack = createNativeStackNavigator<MainStackNavigatorParams>();
@@ -23,6 +26,11 @@ export const navigationContainerRef =
 
 export const MainStackNavigator = () => {
   const { theme } = useTheme();
+  const auth = useAuth();
+
+  if (auth.status === 'pending') {
+    return null;
+  }
 
   return (
     <NavigationContainer ref={navigationContainerRef}>
@@ -35,13 +43,19 @@ export const MainStackNavigator = () => {
           orientation: 'portrait_up',
         }}
       >
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="welcome"
-          component={WelcomeScreen}
-        />
-        <Stack.Screen name="signUp" component={SignUpScreen} />
-        <Stack.Screen name="login" component={LoginScreen} />
+        {auth.status === 'out' ? (
+          <>
+            <Stack.Screen
+              options={{ headerShown: false }}
+              name="welcome"
+              component={WelcomeScreen}
+            />
+            <Stack.Screen name="signUp" component={SignUpScreen} />
+            <Stack.Screen name="login" component={LoginScreen} />
+          </>
+        ) : (
+          <Stack.Screen name="home" component={HomeScreen} />
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );

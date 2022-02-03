@@ -16,7 +16,7 @@ export const SignUpForm = () => {
       <TextField
         autoCapitalize="words"
         value={form.values.name}
-        error={form.errors.name}
+        error={form.touched.name ? form.errors.name : undefined}
         onChangeText={(value) => form.setFieldValue('name', value)}
         label={messages.nameLabel}
         placeholder={messages.namePlaceholder}
@@ -25,7 +25,7 @@ export const SignUpForm = () => {
         autoCapitalize="none"
         keyboardType="email-address"
         value={form.values.email}
-        error={form.errors.email}
+        error={form.touched.email ? form.errors.email : undefined}
         onChangeText={(value) => form.setFieldValue('email', value)}
         label={messages.emailLabel}
         placeholder={messages.emailPlaceholder}
@@ -33,7 +33,7 @@ export const SignUpForm = () => {
       <TextField
         keyboardType="numeric"
         value={form.values.rut}
-        error={form.errors.rut}
+        error={form.touched.rut ? form.errors.rut : undefined}
         onChangeText={(value) => form.setFieldValue('rut', value)}
         label={messages.rutLabel}
         placeholder={messages.rutPlaceholder}
@@ -41,7 +41,7 @@ export const SignUpForm = () => {
       <TextField
         keyboardType="phone-pad"
         value={form.values.phone}
-        error={form.errors.phone}
+        error={form.touched.phone ? form.errors.phone : undefined}
         onChangeText={(value) => form.setFieldValue('phone', value)}
         label={messages.phoneLabel}
         placeholder={messages.phonePlaceholder}
@@ -49,7 +49,7 @@ export const SignUpForm = () => {
       <TextField
         secureTextEntry={true}
         value={form.values.password}
-        error={form.errors.password}
+        error={form.touched.password ? form.errors.password : undefined}
         onChangeText={(value) => form.setFieldValue('password', value)}
         label={messages.passwordLabel}
         placeholder={messages.passwordPlaceholder}
@@ -57,7 +57,11 @@ export const SignUpForm = () => {
       <TextField
         secureTextEntry={true}
         value={form.values.passwordConfirmation}
-        error={form.errors.passwordConfirmation}
+        error={
+          form.touched.passwordConfirmation
+            ? form.errors.passwordConfirmation
+            : undefined
+        }
         onChangeText={(value) =>
           form.setFieldValue('passwordConfirmation', value)
         }
