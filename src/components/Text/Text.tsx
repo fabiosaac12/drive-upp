@@ -11,7 +11,14 @@ export interface Props extends TextProps {
     | 'body'
     | 'body2'
     | 'button';
-  color?: 'text' | 'primary' | 'secondary' | 'danger' | 'success' | 'button';
+  color?:
+    | 'text'
+    | 'text2'
+    | 'primary'
+    | 'secondary'
+    | 'danger'
+    | 'success'
+    | 'button';
 }
 
 export const Text: React.FC<Props> = ({

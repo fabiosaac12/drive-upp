@@ -55,7 +55,7 @@ export const ThemeProvider: React.FC<Props> = ({
         animated
         translucent
         backgroundColor="transparent"
-        barStyle={'light-content'}
+        barStyle={'dark-content'}
       />
       {children}
     </ThemeContext.Provider>

@@ -4,11 +4,16 @@ import {
   createNavigationContainerRef,
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useTheme } from '../../providers/Theme';
+import { useTheme } from 'providers/Theme';
 import { WelcomeScreen } from 'screens/WelcomeScreen';
+import { SignUpScreen } from 'screens/SignUpScreen';
+import { CustomHeader } from './CustomHeader';
+import { LoginScreen } from 'screens/LoginScreen';
 
 export type MainStackNavigatorParams = {
   welcome: undefined;
+  signUp: undefined;
+  login: undefined;
 };
 
 const Stack = createNativeStackNavigator<MainStackNavigatorParams>();
@@ -23,14 +28,20 @@ export const MainStackNavigator = () => {
     <NavigationContainer ref={navigationContainerRef}>
       <Stack.Navigator
         screenOptions={{
-          headerShown: false,
+          header: CustomHeader,
           contentStyle: {
             backgroundColor: theme.palette.background.main,
           },
           orientation: 'portrait_up',
         }}
       >
-        <Stack.Screen name="welcome" component={WelcomeScreen} />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="welcome"
+          component={WelcomeScreen}
+        />
+        <Stack.Screen name="signUp" component={SignUpScreen} />
+        <Stack.Screen name="login" component={LoginScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

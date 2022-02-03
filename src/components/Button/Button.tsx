@@ -11,18 +11,25 @@ interface Props extends TouchableOpacityProps {
   color?: 'primary' | 'secondary' | 'danger' | 'success' | 'background';
   title?: string;
   variant?: 'outlined' | 'filled';
+  size?: 'small' | 'medium' | 'big';
   text?: TextProps;
 }
 
 export const Button: React.FC<Props> = ({
   color = 'primary',
+  size = 'small',
   title,
   style,
   children,
   variant = 'filled',
   ...props
 }) => {
-  const styles = useStyles({ variant, color, disabled: !!props.disabled });
+  const styles = useStyles({
+    variant,
+    color,
+    disabled: !!props.disabled,
+    size,
+  });
 
   return (
     <TouchableOpacity

@@ -28,7 +28,7 @@ export const useStyles = makeStyles((theme) =>
       borderColor: theme.palette.white,
     },
     loginButtonText: {
-      color: theme.palette.background.main,
+      color: theme.palette.background[300],
     },
   }),
 );
