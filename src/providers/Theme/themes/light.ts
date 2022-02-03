@@ -24,9 +24,9 @@ export const light: Theme = {
       fontSize: 14,
     },
     button: {
-      fontSize: 17,
+      fontSize: 18,
       textTransform: 'capitalize',
-      fontWeight: '500',
+      fontWeight: '900',
     },
   },
   palette: {

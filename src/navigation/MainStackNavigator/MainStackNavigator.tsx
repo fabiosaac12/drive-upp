@@ -4,11 +4,11 @@ import {
   createNavigationContainerRef,
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HomeScreen } from '../../screens/HomeScreen';
 import { useTheme } from '../../providers/Theme';
+import { WelcomeScreen } from 'screens/WelcomeScreen';
 
 export type MainStackNavigatorParams = {
-  home: undefined;
+  welcome: undefined;
 };
 
 const Stack = createNativeStackNavigator<MainStackNavigatorParams>();
@@ -23,29 +23,14 @@ export const MainStackNavigator = () => {
     <NavigationContainer ref={navigationContainerRef}>
       <Stack.Navigator
         screenOptions={{
+          headerShown: false,
           contentStyle: {
-            backgroundColor: theme.palette.background[100],
+            backgroundColor: theme.palette.background.main,
           },
-          headerShadowVisible: false,
-          headerStyle: { backgroundColor: theme.palette.background[100] },
-          headerTitleStyle: {
-            fontSize: 21,
-          },
-          headerTintColor: theme.palette.primary[500],
           orientation: 'portrait_up',
         }}
       >
-        <Stack.Screen
-          name="home"
-          component={HomeScreen}
-          options={{
-            title: 'RN Architecture TS',
-            headerTitleStyle: {
-              fontSize: 28,
-              fontWeight: 'bold',
-            },
-          }}
-        />
+        <Stack.Screen name="welcome" component={WelcomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

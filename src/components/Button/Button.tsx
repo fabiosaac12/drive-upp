@@ -27,7 +27,7 @@ export const Button: React.FC<Props> = ({
   return (
     <TouchableOpacity
       activeOpacity={0.6}
-      style={[styles.button, style]}
+      style={[styles.button, Array.isArray(style) ? [...style] : style]}
       {...props}
     >
       {children ? (
