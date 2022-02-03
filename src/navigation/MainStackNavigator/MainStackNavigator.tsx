@@ -54,7 +54,11 @@ export const MainStackNavigator = () => {
             <Stack.Screen name="login" component={LoginScreen} />
           </>
         ) : (
-          <Stack.Screen name="home" component={HomeScreen} />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="home"
+            component={HomeScreen}
+          />
         )}
       </Stack.Navigator>
     </NavigationContainer>
