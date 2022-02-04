@@ -13,6 +13,14 @@ export const useMessages = defineMessages({
     en: 'Enter your name',
     es: 'Escribe tu nombre',
   },
+  lastNameLabel: {
+    en: 'Last name',
+    es: 'Apellido',
+  },
+  lastNamePlaceholder: {
+    en: 'Enter your last name',
+    es: 'Escribe tu apellido',
+  },
   emailLabel: {
     en: 'E-mail',
     es: 'Correo electronico',
@@ -60,6 +68,14 @@ export const useMessages = defineMessages({
   emailError: {
     en: 'Invalid e-mail',
     es: 'Correo electrónico inválido',
+  },
+  rutError: {
+    en: 'Invalid RUT',
+    es: 'RUT inválido',
+  },
+  phoneError: {
+    en: 'Invalid phone number',
+    es: 'Número telefónico inválido',
   },
   matchError: {
     en: "Passwords don't match",

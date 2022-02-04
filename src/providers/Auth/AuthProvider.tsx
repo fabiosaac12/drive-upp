@@ -1,40 +1,37 @@
-import { useLoader } from 'providers/Loader';
+/* eslint-disable no-shadow */
 import React, { useEffect, useState } from 'react';
+import { login as _login } from 'config/api/requests/auth';
 import { AuthContext, AuthContextProps } from './AuthContext';
 import { LoginData } from './models/LoginData';
 import { Status } from './models/Status';
 import { User } from './models/User';
+import { useRequest } from 'hooks/useRequest';
+import { useLoginMessages } from './AuthMessages';
+import { getItem } from 'helpers/localStorage';
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const loader = useLoader();
-
   const [status, setStatus] = useState<Status>('pending');
   const [user, setUser] = useState<User>();
+
+  const loginMessages = useLoginMessages();
+
+  const login = useRequest(_login, loginMessages);
 
   useEffect(() => {
     setTimeout(() => setStatus('out'), 2000);
   }, []);
 
-  const handleLogin = ({ email, password }: LoginData) => {
-    loader.handleShow();
+  const handleLogin = async (data: LoginData) => {
+    const user = await login({ data });
 
-    setTimeout(() => {
-      setUser({
-        _id: '61fc10af06c567a3f96982ab',
-        email: 'fabiosaac12@gmail.com',
-        name: 'Fabio',
-        lastName: 'Bermudez',
-        phone: '123456789123',
-        rut: 'ss',
-        photo:
-          'https://res.cloudinary.com/djwc3zrlu/image/upload/v1626062878/ky8ssjpijbkt5vfgor72.png',
-        role: 'user',
-        createdAt: '2022-02-03T17:28:15.907Z',
-      });
+    console.log(await getItem('token'));
 
+    console.log({ user });
+
+    if (user) {
+      setUser(user);
       setStatus('in');
-      loader.handleHide();
-    }, 2000);
+    }
   };
 
   const contextValue: AuthContextProps = {

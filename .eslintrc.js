@@ -23,6 +23,7 @@ module.exports = {
           assets: './src/assets',
           helpers: './src/helpers',
           layouts: './src/layouts',
+          config: './src/config',
         },
       },
     },

@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { TextInput, TextInputProps, TextProps } from 'react-native';
+import {
+  TextInput,
+  TextInputProps,
+  TextProps,
+  View,
+  ViewProps,
+} from 'react-native';
 import { Text } from 'components/Text';
 import { useStyles } from './TextFieldStyles';
 
@@ -9,6 +15,7 @@ interface Props extends TextInputProps {
   disabled?: boolean;
   labelProps?: TextProps;
   errorProps?: TextProps;
+  containerProps?: ViewProps;
 }
 
 export const TextField: React.FC<Props> = ({
@@ -17,6 +24,7 @@ export const TextField: React.FC<Props> = ({
   style,
   labelProps,
   errorProps,
+  containerProps,
   disabled = false,
   ...props
 }) => {
@@ -24,7 +32,7 @@ export const TextField: React.FC<Props> = ({
   const styles = useStyles();
 
   return (
-    <>
+    <View {...containerProps}>
       <Text
         variant="body"
         color={error ? 'danger' : 'text2'}
@@ -59,6 +67,6 @@ export const TextField: React.FC<Props> = ({
       >
         {error}
       </Text>
-    </>
+    </View>
   );
 };
