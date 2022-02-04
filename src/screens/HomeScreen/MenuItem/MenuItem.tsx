@@ -23,7 +23,7 @@ export const MenuItem: FC<Props> = ({ label, icon, style, ...props }) => {
       {...props}
     >
       <Image source={icon} style={styles.icon} />
-      <Text variant="subtitle2" color="primary">
+      <Text variant="body2" color="primary">
         {label}
       </Text>
     </TouchableOpacity>

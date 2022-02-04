@@ -1,5 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 import { makeStyles } from '../../providers/Theme';
+
+const window = Dimensions.get('window');
 
 export const useStyles = makeStyles((theme) =>
   StyleSheet.create({
@@ -15,7 +17,9 @@ export const useStyles = makeStyles((theme) =>
     },
     logo: {
       width: 370,
-      height: 370,
+      height: Math.min(370, window.width * 0.9),
+      maxWidth: window.width * 0.9,
+      resizeMode: 'contain',
       marginBottom: theme.spacing(6),
     },
     bikeImage: {
