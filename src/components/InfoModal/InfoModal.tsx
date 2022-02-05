@@ -27,7 +27,7 @@ export const InfoModal: FC<Props> = ({
         {title}
       </Text>
       <Button
-        variant="outlined"
+        variant="filled"
         color={variant}
         title={buttonText}
         onPress={() => {

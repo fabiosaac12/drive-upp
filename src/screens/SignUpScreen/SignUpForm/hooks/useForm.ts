@@ -2,8 +2,10 @@ import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { useMessages } from '../SignUpFormMessages';
 import { useRutValidator } from './useRutValidator';
+import { useAuth } from 'providers/Auth';
 
 export const useForm = () => {
+  const auth = useAuth();
   const messages = useMessages();
 
   const initialValues = {
@@ -17,8 +19,16 @@ export const useForm = () => {
   };
 
   const validationSchema = yup.object({
-    name: yup.string().required(messages.requiredError),
-    lastName: yup.string().required(messages.requiredError),
+    name: yup
+      .string()
+      .min(3, messages.min3Error)
+      .max(30, messages.max30Error)
+      .required(messages.requiredError),
+    lastName: yup
+      .string()
+      .min(3, messages.min3Error)
+      .max(30, messages.max30Error)
+      .required(messages.requiredError),
     email: yup
       .string()
       .email(messages.emailError)
@@ -28,7 +38,13 @@ export const useForm = () => {
       .string()
       .min(4, messages.requiredError)
       .matches(/^(\+?56)?(\s?)(0?9)(\s?)[9876543]\d{7}$/, messages.phoneError),
-    password: yup.string().required(messages.requiredError),
+    password: yup
+      .string()
+      .required(messages.requiredError)
+      .matches(
+        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!¿@(.)$=%^/&¡*-]).{8,}$/,
+        messages.passwordError,
+      ),
     passwordConfirmation: yup
       .string()
       .oneOf([yup.ref('password')], messages.matchError)
@@ -38,10 +54,8 @@ export const useForm = () => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values) => console.log(values),
+    onSubmit: (values) => auth.handleSignUp(values),
   });
-
-  console.log(formik.values.phone);
 
   useRutValidator(formik);
 

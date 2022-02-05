@@ -15,7 +15,7 @@ export const useStyles = makeStyles((theme) =>
     },
     phoneCode: {
       marginTop: 2,
-      marginRight: theme.spacing(1.5),
+      marginHorizontal: theme.spacing(1),
     },
   }),
 );

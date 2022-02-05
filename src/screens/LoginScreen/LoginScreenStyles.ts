@@ -11,7 +11,8 @@ export const useStyles = makeStyles((theme) => {
     },
     container: {
       flex: 1,
-      padding: theme.spacing(2),
+      paddingHorizontal: theme.spacing(1),
+      paddingTop: theme.spacing(2),
       paddingBottom: insets.bottom + theme.spacing(4),
       justifyContent: 'center',
     },

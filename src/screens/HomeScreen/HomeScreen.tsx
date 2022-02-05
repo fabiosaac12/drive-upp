@@ -1,6 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import { images } from 'assets/images';
 import { AdvertisingBanner } from 'components/AdvertisingBanner';
+import { useAuth } from 'providers/Auth';
 import React, { FC } from 'react';
 import { ScrollView, View } from 'react-native';
 import { withLayout } from '../../hoc';
@@ -16,6 +17,7 @@ const icons = {
 };
 
 export const HomeScreen: FC = withLayout(() => {
+  const auth = useAuth();
   const messages = useMessages();
   const styles = useStyles();
 
@@ -48,6 +50,7 @@ export const HomeScreen: FC = withLayout(() => {
             icon={icons.help}
             label={messages.help}
             style={styles.menuItem}
+            onPress={auth.handleLogout}
           />
         </View>
 

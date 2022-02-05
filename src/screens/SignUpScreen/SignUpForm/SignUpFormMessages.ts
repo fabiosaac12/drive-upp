@@ -77,8 +77,20 @@ export const useMessages = defineMessages({
     en: 'Invalid phone number',
     es: 'Número telefónico inválido',
   },
+  passwordError: {
+    en: 'Must contain 1 uppercase, 1 lowercase, 1 number, a special character and a minimum of 8 characters',
+    es: 'Debe contener 1 mayúscula, 1 minúscula, 1 number,, un carácter especial y un mínimo de 8 caracteres',
+  },
   matchError: {
     en: "Passwords don't match",
     es: 'Las contraseñas no coinciden',
+  },
+  min3Error: {
+    en: 'Must contain at least 3 characters',
+    es: 'Debe contener al menos 3 caracteres',
+  },
+  max30Error: {
+    en: 'Must contain a maximun of 30 characters',
+    es: 'Debe contener un máximo de 30 caracteres',
   },
 });

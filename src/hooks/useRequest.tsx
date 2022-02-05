@@ -1,7 +1,10 @@
+import React from 'react';
 import { defineMessages } from 'providers/Language';
 import { FormattedMessages } from 'providers/Language/models/FormattedMessages';
 import { useLoader } from 'providers/Loader';
 import _ from 'lodash';
+import { useModal } from 'providers/Modal';
+import { InfoModal } from 'components/InfoModal';
 
 const useDefaultMessages = defineMessages({
   404: {
@@ -24,30 +27,54 @@ const useDefaultMessages = defineMessages({
     en: 'An error has occured',
     es: 'Ha ocurrido un error',
   },
+  accept: {
+    en: 'Accept',
+    es: 'Aceptar',
+  },
 });
 
 export const useRequest = <T, U>(
   request: (props: T) => Promise<U>,
-  customMessages: FormattedMessages<string> = {},
+  config?: {
+    customMessages?: FormattedMessages<string>;
+    showLoader?: boolean;
+    showErrorModal?: boolean;
+  },
 ): ((props: T) => Promise<U | undefined>) => {
+  const {
+    customMessages = {},
+    showLoader = true,
+    showErrorModal = true,
+  } = config || {};
+
   const loader = useLoader();
+  const modal = useModal();
   const defaultMessages = useDefaultMessages();
   const messages = _.defaultsDeep(customMessages, defaultMessages);
 
   return async (props: T) => {
-    loader.handleShow();
+    showLoader && loader.handleShow();
 
     try {
       const response = await request(props);
 
-      loader.handleHide();
+      showLoader && loader.handleHide();
 
       return response;
     } catch (_code) {
-      loader.handleHide();
+      showLoader && loader.handleHide();
 
       const code = _code as number;
 
+      showErrorModal &&
+        modal.handleOpen({
+          content: (
+            <InfoModal
+              title={messages[code in messages ? code : 'error']}
+              buttonText={messages.accept}
+            />
+          ),
+        });
       console.log(code in messages ? messages[code] : messages.error);
     }
   };

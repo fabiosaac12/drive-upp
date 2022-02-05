@@ -17,6 +17,7 @@ export const useStyles = makeStyles((theme, { variant }: Props) =>
           ? theme.palette[variant][800]
           : theme.palette[variant][200],
       marginBottom: 15,
+      textTransform: 'none',
     },
   }),
 );
