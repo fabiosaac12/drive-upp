@@ -7,15 +7,15 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { MainStackNavigatorParams } from 'navigation/MainStackNavigator';
 import { LoginForm } from './LoginForm';
 import { useMessages } from './LoginScreenMessages';
 import { useStyles } from './LoginScreenStyles';
 import { FormikContextType } from 'formik';
 import { LoginData } from 'providers/Auth/models/LoginData';
+import { SignedOutStackNavigatorParams } from 'navigation/SignedOutStackNavigator';
 
 interface Props
-  extends NativeStackScreenProps<MainStackNavigatorParams, 'login'> {}
+  extends NativeStackScreenProps<SignedOutStackNavigatorParams, 'login'> {}
 
 export const LoginScreen: FC<Props> = ({ navigation, route: { params } }) => {
   const messages = useMessages();

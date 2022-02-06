@@ -1,5 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Text } from 'components/Text';
+import { SignedOutStackNavigatorParams } from 'navigation/SignedOutStackNavigator';
 import React, { FC } from 'react';
 import {
   KeyboardAvoidingView,
@@ -7,13 +8,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { MainStackNavigatorParams } from 'navigation/MainStackNavigator';
 import { SignUpForm } from './SignUpForm';
 import { useMessages } from './SignUpScreenMessages';
 import { useStyles } from './SignUpScreenStyles';
 
 interface Props
-  extends NativeStackScreenProps<MainStackNavigatorParams, 'login'> {}
+  extends NativeStackScreenProps<SignedOutStackNavigatorParams, 'login'> {}
 
 export const SignUpScreen: FC<Props> = ({ navigation }) => {
   const messages = useMessages();

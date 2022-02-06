@@ -2,13 +2,16 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Text } from 'components/Text';
 import React, { FC } from 'react';
 import { KeyboardAvoidingView, ScrollView, View } from 'react-native';
-import { MainStackNavigatorParams } from 'navigation/MainStackNavigator';
 import { ResetPasswordForm } from './ResetPasswordForm';
 import { useMessages } from './ResetPasswordMessages';
 import { useStyles } from './ResetPasswordScreenStyles';
+import { SignedOutStackNavigatorParams } from 'navigation/SignedOutStackNavigator';
 
 interface Props
-  extends NativeStackScreenProps<MainStackNavigatorParams, 'resetPassword'> {}
+  extends NativeStackScreenProps<
+    SignedOutStackNavigatorParams,
+    'resetPassword'
+  > {}
 
 export const ResetPasswordScreen: FC<Props> = ({ route: { params } }) => {
   const messages = useMessages();

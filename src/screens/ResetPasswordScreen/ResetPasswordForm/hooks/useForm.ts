@@ -46,7 +46,7 @@ export const useForm = ({ initialValues: _initialValues }: Props) => {
       .required(messages.requiredError),
     pin: yup
       .number()
-      .min(100000, messages.pinError)
+      .min(10000, messages.pinError)
       .max(999999, messages.pinError),
   });
 
