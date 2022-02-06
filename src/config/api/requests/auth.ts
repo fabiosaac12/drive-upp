@@ -1,5 +1,7 @@
 import { removeItem, setItem } from 'helpers/localStorage';
 import { LoginData } from 'providers/Auth/models/LoginData';
+import { RecoveryPasswordData } from 'providers/Auth/models/RecoveryPasswordData';
+import { ResetPasswordData } from 'providers/Auth/models/ResetPasswordData';
 import { SignUpData } from 'providers/Auth/models/SignUpData';
 import { User } from 'providers/Auth/models/User';
 import { instance } from '../instance';
@@ -75,11 +77,53 @@ export const signUp = async ({ data }: { data: SignUpData }) => {
     },
   } = response;
 
-  console.log(response.data);
+  if (code !== 200) {
+    throw code;
+  }
+
+  return emailSentSuccesfully;
+};
+
+export const recoveryPassword = async ({
+  data,
+}: {
+  data: RecoveryPasswordData;
+}) => {
+  const response = await instance.post<
+    ApiResponse<{ emailSentSuccesfully: boolean }>
+  >('auth/recoveryPassword/email', data);
+
+  const {
+    data: {
+      headerResponse: { code },
+      payload: { emailSentSuccesfully },
+    },
+  } = response;
 
   if (code !== 200) {
     throw code;
   }
 
   return emailSentSuccesfully;
+};
+
+export const resetPassword = async ({ data }: { data: ResetPasswordData }) => {
+  const response = await instance.post<ApiResponse<{}>>(
+    'auth/recoveryPassword/reset',
+    data,
+  );
+
+  const {
+    data: {
+      headerResponse: { code },
+    },
+  } = response;
+
+  console.log(response.data);
+
+  if (code !== 200) {
+    throw code;
+  }
+
+  return true;
 };

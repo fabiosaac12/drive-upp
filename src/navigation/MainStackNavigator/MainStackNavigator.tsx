@@ -11,12 +11,22 @@ import { CustomHeader } from './CustomHeader';
 import { LoginScreen } from 'screens/LoginScreen';
 import { useAuth } from 'providers/Auth';
 import { HomeScreen } from 'screens/HomeScreen';
+import { RecoveryPasswordScreen } from 'screens/RecoveryPasswordScreen';
+import { ResetPasswordScreen } from 'screens/ResetPasswordScreen';
 
 export type MainStackNavigatorParams = {
   welcome: undefined;
   signUp: undefined;
-  login: undefined;
+  login?: {
+    email?: string;
+  };
   home: undefined;
+  recoveryPassword: {
+    email: string;
+  };
+  resetPassword: {
+    email: string;
+  };
 };
 
 const Stack = createNativeStackNavigator<MainStackNavigatorParams>();
@@ -52,6 +62,14 @@ export const MainStackNavigator = () => {
             />
             <Stack.Screen name="signUp" component={SignUpScreen} />
             <Stack.Screen name="login" component={LoginScreen} />
+            <Stack.Screen
+              name="recoveryPassword"
+              component={RecoveryPasswordScreen}
+            />
+            <Stack.Screen
+              name="resetPassword"
+              component={ResetPasswordScreen}
+            />
           </>
         ) : (
           <Stack.Screen

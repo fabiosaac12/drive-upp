@@ -9,4 +9,8 @@ export const useMessages = defineMessages({
     en: 'Sign up',
     es: 'Crear cuenta',
   },
+  forgotPassword: {
+    en: 'Did you forget your password?',
+    es: '¿Olvidaste tu contraseña?',
+  },
 });

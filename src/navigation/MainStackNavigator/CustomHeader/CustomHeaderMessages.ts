@@ -9,4 +9,12 @@ export const useMessages = defineMessages({
     en: 'Login',
     es: 'Iniciar sesión',
   },
+  recoveryPassword: {
+    en: 'Recovery password',
+    es: 'Recuperar contraseña',
+  },
+  resetPassword: {
+    en: 'Reset password',
+    es: 'Restablecer contraseña',
+  },
 });

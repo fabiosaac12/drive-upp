@@ -23,6 +23,10 @@ const useDefaultMessages = defineMessages({
     en: 'Wrong credentials',
     es: 'Credenciales incorrectas',
   },
+  400: {
+    en: 'The sent data has errors',
+    es: 'Los datos enviados contienen errores',
+  },
   error: {
     en: 'An error has occured',
     es: 'Ha ocurrido un error',

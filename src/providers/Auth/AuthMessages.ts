@@ -20,10 +20,6 @@ export const useSignUpMessages = defineMessages({
     en: 'Previously registered e-mail',
     es: 'Correo electrónico registrado anteriormente',
   },
-  400: {
-    en: 'The sent data has errors',
-    es: 'Los datos enviados contienen errores',
-  },
   emailSent: {
     en: 'We have sent you a confirmation e-mail, please, open it and follow the instructions.',
     es: 'Le hemos enviado un correo electrónico de confirmación, por favor, ábralo y siga las instrucciones.',
@@ -31,5 +27,31 @@ export const useSignUpMessages = defineMessages({
   accept: {
     en: 'Accept',
     es: 'Aceptar',
+  },
+});
+
+export const useResetPasswordMessages = defineMessages({
+  404: {
+    en: 'Incorrect or expired pin',
+    es: 'PIN incorrecto o caducado',
+  },
+  401: {
+    en: 'The password is the same as before',
+    es: 'La contraseña es la misma que antes',
+  },
+  success: {
+    en: 'The password has been changed successfully',
+    es: 'La contraseña ha sido cambiada satisfactoriamente',
+  },
+  accept: {
+    en: 'Accept',
+    es: 'Aceptar',
+  },
+});
+
+export const useRecoveryPasswordMessages = defineMessages({
+  404: {
+    en: 'This e-mail is not registered yet',
+    es: 'Este correo electrónico no está registrado aún',
   },
 });

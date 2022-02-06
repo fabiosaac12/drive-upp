@@ -16,23 +16,8 @@ export const useStyles = makeStyles((theme) => {
       paddingBottom: insets.bottom + theme.spacing(4),
       justifyContent: 'center',
     },
-    haveAccountContainer: {
-      flexDirection: 'row',
-      justifyContent: 'center',
-      marginTop: theme.spacing(1),
-    },
-    signUpButton: {
-      marginLeft: theme.spacing(1),
-    },
-    signUpText: {
-      fontWeight: 'bold',
-    },
-    recoveryPasswordButton: {
-      marginTop: theme.spacing(3),
-      alignSelf: 'center',
-    },
-    recoveryPasswordText: {
-      fontWeight: 'bold',
+    description: {
+      marginBottom: theme.spacing(4),
     },
   });
 });

@@ -3,12 +3,18 @@ import { useFormik } from 'formik';
 import { useMessages } from '../LoginFormMessages';
 import { useAuth } from 'providers/Auth';
 
-export const useForm = () => {
+interface Props {
+  initialValues?: {
+    email?: string;
+  };
+}
+
+export const useForm = ({ initialValues: _initialValues }: Props) => {
   const auth = useAuth();
   const messages = useMessages();
 
   const initialValues = {
-    email: '',
+    email: _initialValues?.email || '',
     password: '',
   };
 

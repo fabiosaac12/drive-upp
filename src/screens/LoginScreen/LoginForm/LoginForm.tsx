@@ -1,15 +1,31 @@
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { FC, MutableRefObject, useEffect } from 'react';
 import { useMessages } from './LoginFormMessages';
 import { TextField } from 'components/TextField';
 import { Button } from 'components/Button';
 import { useStyles } from './LoginFormStyles';
 import { useForm } from './hooks/useForm';
+import { LoginData } from 'providers/Auth/models/LoginData';
+import { FormikContextType } from 'formik';
 
-export const LoginForm = () => {
+interface Props {
+  formRef?: MutableRefObject<FormikContextType<LoginData> | undefined>;
+  initialValues?: {
+    email?: string;
+  };
+}
+
+export const LoginForm: FC<Props> = ({ formRef, initialValues }) => {
   const messages = useMessages();
   const styles = useStyles();
 
-  const form = useForm();
+  const form = useForm({ initialValues });
+
+  useEffect(() => {
+    if (formRef) {
+      formRef.current = form;
+    }
+  }, [form]);
 
   return (
     <>

@@ -1,50 +1,38 @@
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import { useMessages } from '../SignUpFormMessages';
-import { useRutValidator } from './useRutValidator';
+import { useMessages } from '../ResetPasswordFormMessages';
 import { useAuth } from 'providers/Auth';
 import { useNavigation } from '@react-navigation/native';
 import { MainStackNavigatorParams } from 'navigation/MainStackNavigator';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ResetPasswordData } from 'providers/Auth/models/ResetPasswordData';
 
-export const useForm = () => {
+interface Props {
+  initialValues: {
+    email: string;
+  };
+}
+
+export const useForm = ({ initialValues: _initialValues }: Props) => {
   const auth = useAuth();
   const messages = useMessages();
   const navigation =
     useNavigation<
-      NativeStackNavigationProp<MainStackNavigatorParams, 'signUp'>
+      NativeStackNavigationProp<MainStackNavigatorParams, 'resetPassword'>
     >();
 
-  const initialValues = {
-    name: '',
-    lastName: '',
-    email: '',
-    rut: '',
-    phone: '+56',
+  const initialValues: ResetPasswordData = {
+    ..._initialValues,
     password: '',
     passwordConfirmation: '',
+    pin: '',
   };
 
   const validationSchema = yup.object({
-    name: yup
-      .string()
-      .min(3, messages.min3Error)
-      .max(30, messages.max30Error)
-      .required(messages.requiredError),
-    lastName: yup
-      .string()
-      .min(3, messages.min3Error)
-      .max(30, messages.max30Error)
-      .required(messages.requiredError),
     email: yup
       .string()
       .email(messages.emailError)
       .required(messages.requiredError),
-    rut: yup.string().required(messages.requiredError),
-    phone: yup
-      .string()
-      .min(4, messages.requiredError)
-      .matches(/^(\+?56)?(\s?)(0?9)(\s?)[9876543]\d{7}$/, messages.phoneError),
     password: yup
       .string()
       .required(messages.requiredError)
@@ -56,15 +44,19 @@ export const useForm = () => {
       .string()
       .oneOf([yup.ref('password')], messages.matchError)
       .required(messages.requiredError),
+    pin: yup
+      .number()
+      .min(100000, messages.pinError)
+      .max(999999, messages.pinError),
   });
 
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
-      const emailSent = await auth.handleSignUp(values);
+      const done = await auth.handleResetPassword(values);
 
-      emailSent &&
+      done &&
         navigation.reset({
           index: 1,
           routes: [
@@ -74,8 +66,6 @@ export const useForm = () => {
         });
     },
   });
-
-  useRutValidator(formik);
 
   return formik;
 };

@@ -29,7 +29,12 @@ export const SignUpScreen: FC<Props> = ({ navigation }) => {
             <Text color="text2">{messages.haveAccount}</Text>
             <TouchableOpacity
               style={styles.loginButton}
-              onPress={() => navigation.navigate('login')}
+              onPress={() =>
+                navigation.reset({
+                  index: 1,
+                  routes: [{ name: 'welcome' }, { name: 'login' }],
+                })
+              }
             >
               <Text style={styles.loginText}>{messages.login}</Text>
             </TouchableOpacity>
