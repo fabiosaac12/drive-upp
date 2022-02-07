@@ -1,2 +1,2 @@
 export * from './PermissionsProvider';
-export * from './usePermissions';
+export * from './hooks/usePermissions';

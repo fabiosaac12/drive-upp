@@ -19,7 +19,7 @@ export const Loader = () => {
       visible={visible}
     >
       <View style={styles.backdrop}>
-        <ActivityIndicator size="large" color={theme.palette.primary[500]} />
+        <ActivityIndicator size="large" color={theme.palette.primary.main} />
       </View>
     </Modal>
   );

@@ -13,14 +13,14 @@ export const useStyles = makeStyles(
     StyleSheet.create({
       container: {
         position: 'absolute',
-        top: position.includes('t') ? theme.spacing(4) : undefined,
-        bottom: position.includes('b') ? theme.spacing(4) : undefined,
-        left: position.includes('l') ? theme.spacing(4) : undefined,
-        right: position.includes('r') ? theme.spacing(4) : undefined,
+        top: position.includes('t') ? theme.spacing(2) : undefined,
+        bottom: position.includes('b') ? theme.spacing(2) : undefined,
+        left: position.includes('l') ? theme.spacing(2) : undefined,
+        right: position.includes('r') ? theme.spacing(2) : undefined,
       },
       fab: {
-        width: 65,
-        height: 65,
+        width: 55,
+        height: 55,
         borderRadius: 30,
         alignItems: 'center',
         justifyContent: 'center',

@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useStyles } from './UserBottomTabNavigatorStyles';
 import { getTabBarIcon, getTabBarLabel } from './helpers';
 import { HomeScreen } from 'screens/HomeScreen';
+import { UserAssistanceScreen } from 'screens/UserAssistanceScreen';
 
 export type UserBottomTabNavigatorProps = {
   assistance: undefined;
@@ -26,7 +27,7 @@ export const UserBottomTabNavigator = () => {
         tabBarStyle: styles.tabBar,
       })}
     >
-      <Tab.Screen name="assistance" component={HomeScreen} />
+      <Tab.Screen name="assistance" component={UserAssistanceScreen} />
       <Tab.Screen name="assistance2" component={HomeScreen} />
     </Tab.Navigator>
   );

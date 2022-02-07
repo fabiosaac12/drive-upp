@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, TouchableNativeFeedback } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useStyles } from './FloatingActionIconButtonStyles';
 
 interface Props {
@@ -32,7 +32,7 @@ export const FloatingActionIconButton = (props: Props) => {
         background={TouchableNativeFeedback.Ripple('#00000020', false, 30)}
       >
         <View style={styles.fab}>
-          <Icon size={32} name={iconName} style={styles.icon} />
+          <Icon size={26} name={iconName} style={styles.icon} />
         </View>
       </TouchableNativeFeedback>
     </View>

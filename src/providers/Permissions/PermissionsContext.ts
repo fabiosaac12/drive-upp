@@ -1,10 +1,8 @@
 import { createContext } from 'react';
+import { Permission } from './models/Permission';
 
-export interface PermissionsContextProps {
-  storage: boolean;
-  askForStorage: () => Promise<boolean>;
+interface ContextProps {
+  location?: Permission;
 }
 
-export const PermissionsContext = createContext<PermissionsContextProps>(
-  {} as PermissionsContextProps,
-);
+export const PermissionsContext = createContext<ContextProps>({});

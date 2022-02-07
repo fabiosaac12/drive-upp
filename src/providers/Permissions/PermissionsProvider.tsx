@@ -1,49 +1,39 @@
-import React, { FC, useEffect, useState } from 'react';
-import { AppState, PermissionsAndroid } from 'react-native';
-import {
-  PermissionsContext,
-  PermissionsContextProps,
-} from './PermissionsContext';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React from 'react';
+import { PermissionsContext } from './PermissionsContext';
+import { FC, useState, useEffect } from 'react';
+import { getInitialLocationState } from './helpers';
+import { AppState } from 'react-native';
+import { Permission } from './models/Permission';
 
 export const PermissionsProvider: FC = ({ children }) => {
-  const [storage, setStorage] = useState(false);
-
-  const askForStorage = async (request = true) => {
-    const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
-
-    let hasPermission = await PermissionsAndroid.check(permission);
-
-    if (hasPermission) {
-      setStorage(hasPermission);
-
-      return true;
-    }
-
-    const status = request && (await PermissionsAndroid.request(permission));
-
-    hasPermission = status === 'granted';
-
-    setStorage(hasPermission);
-
-    return hasPermission;
-  };
+  const [location, setLocation] = useState<Permission>();
 
   useEffect(() => {
-    askForStorage();
-
-    AppState.addEventListener(
-      'change',
-      (state) => state === 'active' && askForStorage(false),
-    );
+    setLocation(getInitialLocationState(setLocation));
   }, []);
 
-  const contextValue: PermissionsContextProps = {
-    askForStorage,
-    storage,
-  };
+  useEffect(() => {
+    if (location) {
+      const { remove: removeAppStateOnChangeEventListener } =
+        AppState.addEventListener('change', (state) => {
+          console.log(state);
+
+          state === 'active' && location?.check();
+        });
+
+      return () => removeAppStateOnChangeEventListener();
+    }
+  }, [!!location]);
+
+  useEffect(() => {
+    if (location?.status === 'unavailable') {
+      location.check();
+    }
+  }, [location]);
 
   return (
-    <PermissionsContext.Provider value={contextValue}>
+    <PermissionsContext.Provider value={{ location }}>
       {children}
     </PermissionsContext.Provider>
   );
