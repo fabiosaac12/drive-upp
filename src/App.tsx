@@ -7,6 +7,7 @@ import { ModalProvider } from 'providers/Modal';
 import { PermissionsProvider } from 'providers/Permissions';
 import { ThemeProvider } from 'providers/Theme';
 import { AuthProvider } from 'providers/Auth';
+import { SocketProvider } from 'providers/Socket';
 
 export const App = () => (
   <SafeAreaProvider>
@@ -16,7 +17,9 @@ export const App = () => (
           <ThemeProvider defaultTheme="light">
             <ModalProvider>
               <AuthProvider>
-                <MainStackNavigator />
+                <SocketProvider>
+                  <MainStackNavigator />
+                </SocketProvider>
               </AuthProvider>
             </ModalProvider>
           </ThemeProvider>

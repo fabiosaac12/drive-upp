@@ -32,8 +32,12 @@ export const PermissionsProvider: FC = ({ children }) => {
     }
   }, [location]);
 
+  const contextValue = {
+    location,
+  };
+
   return (
-    <PermissionsContext.Provider value={{ location }}>
+    <PermissionsContext.Provider value={contextValue}>
       {children}
     </PermissionsContext.Provider>
   );
