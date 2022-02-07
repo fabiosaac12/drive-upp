@@ -1,5 +1,5 @@
 import Geolocation from 'react-native-geolocation-service';
-import { Location } from 'providers/Permissions/models/Location';
+import { Location } from 'providers/Location/models/Location';
 import { useState } from 'react';
 
 export const useLocation = () => {

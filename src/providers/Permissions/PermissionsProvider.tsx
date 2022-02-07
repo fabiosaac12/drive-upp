@@ -17,8 +17,6 @@ export const PermissionsProvider: FC = ({ children }) => {
     if (location) {
       const { remove: removeAppStateOnChangeEventListener } =
         AppState.addEventListener('change', (state) => {
-          console.log(state);
-
           state === 'active' && location?.check();
         });
 

@@ -8,7 +8,6 @@ export const useStyles = makeStyles((theme) =>
     },
     tabBar: {
       backgroundColor: theme.palette.background.light,
-      position: 'absolute',
       elevation: 0,
       borderWidth: 0,
       minHeight: 57,

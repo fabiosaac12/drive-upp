@@ -8,6 +8,8 @@ import { PermissionsProvider } from 'providers/Permissions';
 import { ThemeProvider } from 'providers/Theme';
 import { AuthProvider } from 'providers/Auth';
 import { SocketProvider } from 'providers/Socket';
+import { LocationProvider } from 'providers/Location';
+import { UserAssistanceProvider } from 'providers/UserAssistance';
 
 export const App = () => (
   <SafeAreaProvider>
@@ -16,11 +18,15 @@ export const App = () => (
         <PermissionsProvider>
           <ThemeProvider defaultTheme="light">
             <ModalProvider>
-              <AuthProvider>
-                <SocketProvider>
-                  <MainStackNavigator />
-                </SocketProvider>
-              </AuthProvider>
+              <LocationProvider>
+                <AuthProvider>
+                  <SocketProvider>
+                    <UserAssistanceProvider>
+                      <MainStackNavigator />
+                    </UserAssistanceProvider>
+                  </SocketProvider>
+                </AuthProvider>
+              </LocationProvider>
             </ModalProvider>
           </ThemeProvider>
         </PermissionsProvider>

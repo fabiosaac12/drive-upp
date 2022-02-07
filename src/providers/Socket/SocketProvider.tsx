@@ -11,6 +11,8 @@ export const SocketProvider: FC = ({ children }) => {
   const [socket] = useState(io(config.apiUrl));
   const [connected, setConnected] = useState(false);
 
+  console.log({ connected });
+
   useEffect(() => {
     auth.status === 'in' &&
       auth.user &&

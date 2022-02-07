@@ -3,10 +3,10 @@ import React, { useRef, useEffect, useState } from 'react';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { useStyles } from './MapStyles';
 import { useLocation } from './hooks/useLocation';
-import { Location } from 'providers/Permissions/models/Location';
+import { Location } from 'providers/Location/models/Location';
 import { FloatingActionIconButton } from 'components/FloatingActionIconButton';
 import { ActivityIndicator, View } from 'react-native';
-import { PermissionsProvider, usePermissions } from 'providers/Permissions';
+import { usePermissions } from 'providers/Permissions';
 import { useTheme } from 'providers/Theme';
 
 export const Map = () => {

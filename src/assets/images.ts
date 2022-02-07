@@ -1,4 +1,5 @@
 import advertising from './png/advertising.png';
+import advertisingWhite from './png/advertising-white.png';
 import background from './png/background.png';
 import bike from './png/bike.png';
 import bikeWhite from './png/bike-white.png';
@@ -14,4 +15,5 @@ export const images = {
   nut,
   tips,
   bikeWhite,
+  advertisingWhite,
 };

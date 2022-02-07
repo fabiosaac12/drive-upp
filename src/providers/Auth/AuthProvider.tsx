@@ -54,8 +54,6 @@ export const AuthProvider: React.FC = ({ children }) => {
     (async () => {
       const user = await refreshToken({});
 
-      console.log({ user });
-
       if (user) {
         setUser(user);
         setStatus('in');

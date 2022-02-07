@@ -23,8 +23,6 @@ export const getInitialLocationState = (
 
     setLocation((location) => (location ? { ...location, status } : undefined));
 
-    console.log('check', status);
-
     return status;
   },
   request: async (): Promise<PermissionStatus> => {

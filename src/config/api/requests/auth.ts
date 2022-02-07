@@ -119,8 +119,6 @@ export const resetPassword = async ({ data }: { data: ResetPasswordData }) => {
     },
   } = response;
 
-  console.log(response.data);
-
   if (code !== 200) {
     throw code;
   }
