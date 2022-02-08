@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { InfoModal } from 'components/InfoModal';
 import { useLocation } from 'providers/Location';
 import { useModal } from 'providers/Modal';
@@ -13,39 +14,51 @@ import { useMessages } from './UserAssistanceMessages';
 
 export const UserAssistanceProvider: FC = ({ children }) => {
   const modal = useModal();
-  const { socket } = useSocket();
+  const socket = useSocket();
   const { locationRef } = useLocation();
   const messages = useMessages();
   const [status, setStatus] = useState<Status>('inactive');
 
   useEffect(() => {
-    socket.on('help_no_mechanic_available', () => {
-      setStatus('inactive');
-      modal.handleOpen({
-        content: (
-          <InfoModal
-            variant="secondary"
-            title={messages.noMechanicAvailable}
-            buttonText={messages.accept}
-          />
-        ),
-      });
-    });
-
-    return () => {
-      socket.off('help_no_mechanic_available');
-    };
-  });
-
-  const searchForHelp = () => {
-    if (locationRef.current) {
-      socket.emit('search_help', {
+    if (socket.status === 'connected' && locationRef.current) {
+      socket.socket.emit('search_help', {
         lat: locationRef.current.latitude,
         lng: locationRef.current.longitude,
       });
 
-      setStatus('searching');
+      console.log('emitting search_help');
     }
+  }, [socket.status]);
+
+  useEffect(() => {
+    if (socket.status === 'connected') {
+      socket.socket.on('help_no_mechanic_available', () => {
+        setStatus('inactive');
+        socket.disconnect();
+
+        modal.handleOpen({
+          content: (
+            <InfoModal
+              variant="secondary"
+              title={messages.noMechanicAvailable}
+              buttonText={messages.accept}
+            />
+          ),
+        });
+
+        console.log('receiving help_no_mechanic_available');
+      });
+    }
+
+    return () => {
+      socket.socket.off('help_no_mechanic_available');
+    };
+  }, [socket.status]);
+
+  const searchForHelp = () => {
+    socket.connect();
+
+    setStatus('searching');
   };
 
   const contextValue: UserAssistanceContextProps = {

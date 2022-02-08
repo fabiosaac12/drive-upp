@@ -5,31 +5,40 @@ import { FC, useState } from 'react';
 import { io } from 'socket.io-client';
 import { SocketContext, SocketContextProps } from './SocketContext';
 import { useAuth } from 'providers/Auth';
+import { Status } from './models/Status';
 
 export const SocketProvider: FC = ({ children }) => {
   const auth = useAuth();
   const [socket] = useState(io(config.apiUrl));
-  const [connected, setConnected] = useState(false);
-
-  console.log({ connected });
+  const [status, setStatus] = useState<Status>('disconnected');
 
   useEffect(() => {
-    auth.status === 'in' &&
-      auth.user &&
-      socket.emit('connected', { email: auth.user.email });
-  }, [auth.status, auth.user]);
-
-  useEffect(() => {
-    socket.on('connected_confirm', () => setConnected(true));
+    socket.on('connected_confirm', () => setStatus('connected'));
 
     return () => {
       socket.off();
     };
   }, []);
 
+  const connect = () => {
+    !socket.connected && socket.connect();
+
+    auth.user && socket.emit('connected', { email: auth.user.email });
+
+    setStatus('connecting');
+  };
+
+  const disconnect = () => {
+    socket.disconnect();
+
+    setStatus('disconnected');
+  };
+
   const contextValue: SocketContextProps = {
     socket,
-    connected,
+    status,
+    connect,
+    disconnect,
   };
 
   return (
