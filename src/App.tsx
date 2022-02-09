@@ -9,7 +9,7 @@ import { ThemeProvider } from 'providers/Theme';
 import { AuthProvider } from 'providers/Auth';
 import { SocketProvider } from 'providers/Socket';
 import { LocationProvider } from 'providers/Location';
-import { UserAssistanceProvider } from 'providers/UserAssistance';
+import { RoleManager } from 'providers/RoleManager';
 
 export const App = () => (
   <SafeAreaProvider>
@@ -21,9 +21,9 @@ export const App = () => (
               <LocationProvider>
                 <AuthProvider>
                   <SocketProvider>
-                    <UserAssistanceProvider>
+                    <RoleManager>
                       <MainStackNavigator />
-                    </UserAssistanceProvider>
+                    </RoleManager>
                   </SocketProvider>
                 </AuthProvider>
               </LocationProvider>

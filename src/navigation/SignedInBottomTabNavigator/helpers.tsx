@@ -2,15 +2,15 @@
 import { Text } from 'components/Text';
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { UserBottomTabNavigatorProps } from '.';
-import { useMessages } from './UserBottomTabNavigatorMessages';
-import { useStyles } from './UserBottomTabNavigatorStyles';
+import { SignedInBottomTabNavigatorProps } from '.';
+import { useMessages } from './SignedInBottomTabNavigatorMessages';
+import { useStyles } from './SignedInBottomTabNavigatorStyles';
 
 export const getTabBarIcon = (
-  route: keyof UserBottomTabNavigatorProps,
+  route: keyof SignedInBottomTabNavigatorProps,
   color: string,
 ) => {
-  const icons: Record<keyof UserBottomTabNavigatorProps, string> = {
+  const icons: Record<keyof SignedInBottomTabNavigatorProps, string> = {
     assistance: 'location-on',
     assistance2: 'location-on',
   };
@@ -19,7 +19,7 @@ export const getTabBarIcon = (
 };
 
 export const getTabBarLabel = (
-  route: keyof UserBottomTabNavigatorProps,
+  route: keyof SignedInBottomTabNavigatorProps,
   color: string,
 ) => {
   const style = useStyles();

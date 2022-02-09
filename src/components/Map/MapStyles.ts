@@ -8,9 +8,4 @@ export const useStyles = () =>
     map: {
       flex: 1,
     },
-    loaderContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
   });

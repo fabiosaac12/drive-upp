@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { makeStyles } from '../../providers/Theme';
 
-export const useStyles = makeStyles(() =>
+export const useStyles = makeStyles((theme) =>
   StyleSheet.create({
     container: {
       flex: 1,
@@ -12,6 +12,9 @@ export const useStyles = makeStyles(() =>
     contentContainer: {
       flex: 1,
       justifyContent: 'center',
+    },
+    grantPermissionsButtonStyles: {
+      alignSelf: 'center',
     },
   }),
 );

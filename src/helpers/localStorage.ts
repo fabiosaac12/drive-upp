@@ -16,7 +16,10 @@ export const getItem = async <T>(key: string): Promise<T | undefined> => {
   } catch {}
 };
 
-export const setItem = async (key: string, value: string | any[] | object) => {
+export const setItem = async (
+  key: string,
+  value: string | any[] | object | boolean,
+) => {
   try {
     await AsyncStorage.setItem(
       key,

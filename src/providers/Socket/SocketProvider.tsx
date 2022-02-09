@@ -9,7 +9,7 @@ import { Status } from './models/Status';
 
 export const SocketProvider: FC = ({ children }) => {
   const auth = useAuth();
-  const [socket] = useState(io(config.apiUrl));
+  const [socket] = useState(io(config.apiUrl, { autoConnect: false }));
   const [status, setStatus] = useState<Status>('disconnected');
 
   useEffect(() => {
@@ -23,7 +23,9 @@ export const SocketProvider: FC = ({ children }) => {
   const connect = () => {
     !socket.connected && socket.connect();
 
-    auth.user && socket.emit('connected', { email: auth.user.email });
+    if (auth.user) {
+      socket.emit('connected', { email: auth.user.email });
+    }
 
     setStatus('connecting');
   };
@@ -35,7 +37,7 @@ export const SocketProvider: FC = ({ children }) => {
   };
 
   const contextValue: SocketContextProps = {
-    socket,
+    instance: socket,
     status,
     connect,
     disconnect,

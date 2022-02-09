@@ -1,19 +1,29 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useStyles } from './UserBottomTabNavigatorStyles';
+import { useStyles } from './SignedInBottomTabNavigatorStyles';
 import { getTabBarIcon, getTabBarLabel } from './helpers';
 import { HomeScreen } from 'screens/HomeScreen';
+import { usePermissions } from 'providers/Permissions';
+import { NoPermissionMapScreen } from 'screens/NoPermissionMapScreen';
+import { useAuth } from 'providers/Auth';
+import { MechanicAssistanceScreen } from 'screens/MechanicAssistanceScreen';
 import { UserAssistanceScreen } from 'screens/UserAssistanceScreen';
 
-export type UserBottomTabNavigatorProps = {
+export type SignedInBottomTabNavigatorProps = {
   assistance: undefined;
   assistance2: undefined;
 };
 
-const Tab = createBottomTabNavigator<UserBottomTabNavigatorProps>();
+const Tab = createBottomTabNavigator<SignedInBottomTabNavigatorProps>();
 
-export const UserBottomTabNavigator = () => {
+export const SignedInBottomTabNavigator = () => {
   const styles = useStyles();
+  const permissions = usePermissions();
+  const auth = useAuth();
+
+  if (!auth.user) {
+    return null;
+  }
 
   return (
     <Tab.Navigator
@@ -27,7 +37,16 @@ export const UserBottomTabNavigator = () => {
         tabBarStyle: styles.tabBar,
       })}
     >
-      <Tab.Screen name="assistance" component={UserAssistanceScreen} />
+      <Tab.Screen
+        name="assistance"
+        component={
+          permissions.location?.status === 'granted'
+            ? auth.user.role === 'mechanic'
+              ? MechanicAssistanceScreen
+              : UserAssistanceScreen
+            : NoPermissionMapScreen
+        }
+      />
       <Tab.Screen name="assistance2" component={HomeScreen} />
     </Tab.Navigator>
   );

@@ -21,18 +21,16 @@ export const UserAssistanceProvider: FC = ({ children }) => {
 
   useEffect(() => {
     if (socket.status === 'connected' && locationRef.current) {
-      socket.socket.emit('search_help', {
+      socket.instance.emit('search_help', {
         lat: locationRef.current.latitude,
         lng: locationRef.current.longitude,
       });
-
-      console.log('emitting search_help');
     }
   }, [socket.status]);
 
   useEffect(() => {
     if (socket.status === 'connected') {
-      socket.socket.on('help_no_mechanic_available', () => {
+      socket.instance.on('help_no_mechanic_available', () => {
         setStatus('inactive');
         socket.disconnect();
 
@@ -45,13 +43,11 @@ export const UserAssistanceProvider: FC = ({ children }) => {
             />
           ),
         });
-
-        console.log('receiving help_no_mechanic_available');
       });
     }
 
     return () => {
-      socket.socket.off('help_no_mechanic_available');
+      socket.instance.off('help_no_mechanic_available');
     };
   }, [socket.status]);
 

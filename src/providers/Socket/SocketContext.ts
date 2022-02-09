@@ -3,7 +3,7 @@ import { Socket } from 'socket.io-client';
 import { Status } from './models/Status';
 
 export type SocketContextProps = {
-  socket: Socket;
+  instance: Socket;
   status: Status;
   connect: () => void;
   disconnect: () => void;

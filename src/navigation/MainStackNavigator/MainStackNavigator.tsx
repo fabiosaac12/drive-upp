@@ -7,7 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useTheme } from 'providers/Theme';
 import { useAuth } from 'providers/Auth';
 import { SignedOutStackNavigator } from 'navigation/SignedOutStackNavigator';
-import { UserBottomTabNavigator } from 'navigation/UserBottomTabNavigator';
+import { SignedInBottomTabNavigator } from 'navigation/SignedInBottomTabNavigator';
 
 export type MainStackNavigatorParams = {
   signedOut: undefined;
@@ -46,7 +46,10 @@ export const MainStackNavigator = () => {
             />
           </>
         ) : (
-          <Stack.Screen name="signedIn" component={UserBottomTabNavigator} />
+          <Stack.Screen
+            name="signedIn"
+            component={SignedInBottomTabNavigator}
+          />
         )}
       </Stack.Navigator>
     </NavigationContainer>

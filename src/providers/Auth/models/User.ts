@@ -6,6 +6,6 @@ export type User = {
   phone: string;
   rut: string;
   photo: string;
-  role: string;
+  role: 'mechanic' | 'user';
   createdAt: string;
 };

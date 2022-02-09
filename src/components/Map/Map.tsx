@@ -5,7 +5,7 @@ import { useStyles } from './MapStyles';
 import { useLocation } from './hooks/useLocation';
 import { Location } from 'providers/Location/models/Location';
 import { FloatingActionIconButton } from 'components/FloatingActionIconButton';
-import { ActivityIndicator, View } from 'react-native';
+import { View } from 'react-native';
 import { usePermissions } from 'providers/Permissions';
 import { useTheme } from 'providers/Theme';
 
@@ -39,13 +39,6 @@ export const Map = () => {
       });
   }, [follow, location]);
 
-  if (permissions.location?.status !== 'granted') {
-    return (
-      <View style={styles.loaderContainer}>
-        <ActivityIndicator size="large" color={theme.palette.primary.main} />
-      </View>
-    );
-  }
   return (
     <View style={styles.container}>
       <MapView
