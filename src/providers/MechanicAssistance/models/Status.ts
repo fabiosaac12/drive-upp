@@ -1,1 +1,1 @@
-export type Status = 'inactive' | 'activing' | 'active' | 'helping';
+export type Status = 'inactive' | 'activing' | 'active' | 'waiting' | 'helping';

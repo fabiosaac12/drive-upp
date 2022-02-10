@@ -1,5 +1,5 @@
+/* eslint-disable no-shadow */
 /* eslint-disable react-hooks/exhaustive-deps */
-import Geolocation from 'react-native-geolocation-service';
 import { InfoModal } from 'components/InfoModal';
 import { MechanicCanHelpModal } from 'components/MechanicCanHelpModal';
 import { useLocation } from 'providers/Location';
@@ -17,16 +17,20 @@ import {
 import { useMessages } from './UserAssistanceMessages';
 import { CurrentLocationUserEventData } from './models/CurrentLocationUserEventData';
 import { CancelAssistanceEventData } from './models/CancelAssistanceEventData';
+import { LocationListener } from 'providers/Location/models/LocationListener';
+import { Location } from 'providers/Location/models/Location';
+import { CurrentLocationMechanicEventData } from './models/CurrentLocationMechanicEventData';
 
 export const UserAssistanceProvider: FC = ({ children }) => {
   const modal = useModal();
   const socket = useSocket();
-  const { locationRef } = useLocation();
+  const { locationRef, ...location } = useLocation();
   const messages = useMessages();
   const [status, setStatus] = useState<Status>('inactive');
   const assistanceRef = useRef<HelpConfirmEventData>();
+  const [mechanicLocation, setMechanicLocation] = useState<Location>();
 
-  console.log(socket.status);
+  console.log({ mechanicLocation });
 
   useEffect(() => {
     console.log(socket.status, locationRef.current);
@@ -56,11 +60,11 @@ export const UserAssistanceProvider: FC = ({ children }) => {
           ),
         });
       });
-    }
 
-    return () => {
-      socket.instance.off('help_no_mechanic_available');
-    };
+      return () => {
+        socket.instance.off('help_no_mechanic_available');
+      };
+    }
   }, [socket.status]);
 
   useEffect(() => {
@@ -80,6 +84,10 @@ export const UserAssistanceProvider: FC = ({ children }) => {
                 onAccept={() => {
                   assistanceRef.current = data;
                   setStatus('active');
+                  setMechanicLocation({
+                    latitude: data.mechanic.latMechanic,
+                    longitude: data.mechanic.lngMechanic,
+                  });
                 }}
                 onReject={() => cancelAssistance(data)}
               />
@@ -87,21 +95,44 @@ export const UserAssistanceProvider: FC = ({ children }) => {
           });
         }
       });
-    }
 
-    return () => {
-      socket.instance.off('help_confirm');
-    };
+      return () => {
+        socket.instance.off('help_confirm');
+      };
+    }
   }, [socket.status]);
 
   useEffect(() => {
     if (status === 'active' && assistanceRef.current) {
-      const locationWatcherId = startSendingLocation(assistanceRef.current);
-
-      console.log({ locationWatcherId });
+      const locationListener = startSendingLocation(assistanceRef.current);
 
       return () => {
-        Geolocation.clearWatch(locationWatcherId);
+        location.removeListener(locationListener);
+      };
+    }
+  }, [status]);
+
+  useEffect(() => {
+    if (status === 'active') {
+      socket.instance.on(
+        'current_location_mechanic',
+        (data: CurrentLocationMechanicEventData) => {
+          setMechanicLocation({
+            latitude: data.location.latMechanic,
+            longitude: data.location.lngMechanic,
+          });
+        },
+      );
+
+      socket.instance.on('request_cancelled_mechanic', () => {
+        setStatus('active');
+        setMechanicLocation(undefined);
+        assistanceRef.current = undefined;
+      });
+
+      return () => {
+        socket.instance.off('current_location_mechanic');
+        socket.instance.off('request_cancelled_mechanic');
       };
     }
   }, [status]);
@@ -119,32 +150,23 @@ export const UserAssistanceProvider: FC = ({ children }) => {
   }, [status]);
 
   const startSendingLocation = (assistanceData: HelpConfirmEventData) => {
-    const watcher: Geolocation.SuccessCallback = (position) => {
+    const locationListener: LocationListener = (location) => {
       const data: CurrentLocationUserEventData = {
         location: {
           idUser: assistanceData.user.idUser,
-          latUser: position.coords.latitude,
-          lngUser: position.coords.longitude,
+          latUser: location.latitude,
+          lngUser: location.longitude,
         },
         idAssistance: assistanceData.idAssistance,
         idMechanic: assistanceData.mechanic.idMechanic,
       };
 
-      console.log('current_location_user', data);
       socket.instance.emit('current_location_user', data);
     };
 
-    Geolocation.getCurrentPosition(watcher, (error) => console.log(error), {
-      enableHighAccuracy: true,
-    });
+    location.addListener(locationListener);
 
-    const watchingId = Geolocation.watchPosition(
-      watcher,
-      (error) => console.log(error),
-      { enableHighAccuracy: true },
-    );
-
-    return watchingId;
+    return locationListener;
   };
 
   const cancelAssistance = (assistanceData: HelpConfirmEventData) => {
@@ -166,6 +188,7 @@ export const UserAssistanceProvider: FC = ({ children }) => {
   const contextValue: UserAssistanceContextProps = {
     status,
     searchForHelp,
+    mechanicLocation,
   };
 
   return (
