@@ -12,8 +12,12 @@ export const SocketProvider: FC = ({ children }) => {
   const [socket] = useState(io(config.apiUrl, { autoConnect: false }));
   const [status, setStatus] = useState<Status>('disconnected');
 
+  console.log(socket.connected);
+
   useEffect(() => {
     socket.on('connected_confirm', () => setStatus('connected'));
+
+    socket.on('error', console.log);
 
     return () => {
       socket.off();

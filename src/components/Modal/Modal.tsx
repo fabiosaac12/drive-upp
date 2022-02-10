@@ -4,7 +4,7 @@ import { useModal } from '../../providers/Modal';
 import { useStyles } from './ModalStyles';
 
 export const Modal: React.FC = () => {
-  const { handleHide, visible, content } = useModal();
+  const { handleHide, visible, content, options } = useModal();
   const styles = useStyles();
 
   return (
@@ -16,6 +16,7 @@ export const Modal: React.FC = () => {
       transparent={true}
       visible={visible}
       onRequestClose={handleHide}
+      {...options}
     >
       <TouchableOpacity
         onPress={handleHide}

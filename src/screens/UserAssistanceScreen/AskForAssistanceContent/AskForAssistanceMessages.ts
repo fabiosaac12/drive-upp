@@ -7,6 +7,6 @@ export const useMessages = defineMessages({
   },
   needHelp: {
     en: 'Do you need a mechanic to come help you? ',
-    es: '¿Necesitas que mecánico vaya a ayudarte?',
+    es: '¿Necesitas que un mecánico vaya a ayudarte?',
   },
 });
