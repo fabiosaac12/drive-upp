@@ -17,9 +17,9 @@ import { useAuth } from 'providers/Auth';
 import { useModal } from 'providers/Modal';
 import { UserNeedsHelpModal } from 'components/UserNeedsHelpModal';
 import { CurrentLocationUserEventData } from './models/CurrentLocationUserEventData';
-import { Location } from 'providers/Location/models/Location';
 import { LocationListener } from 'providers/Location/models/LocationListener';
 import { CurrentLocationMechanicEventData } from './models/CurrentLocationMechanicEventData';
+import { UserLocation } from './models/UserLocation';
 
 export const MechanicAssistanceProvider: FC = ({ children }) => {
   const { locationRef, ...location } = useLocation();
@@ -28,7 +28,7 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
   const modal = useModal();
   const [status, setStatus] = useState<Status>('inactive');
   const assistanceIdRef = useRef<string>();
-  const [userLocation, setUserLocation] = useState<Location>();
+  const [userLocation, setUserLocation] = useState<UserLocation>();
 
   console.log({ userLocation });
 
@@ -37,9 +37,18 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
       socket.instance.on(
         'current_location_user',
         (data: CurrentLocationUserEventData) => {
-          setUserLocation({
+          if (!locationRef.current) {
+            return;
+          }
+
+          const location = {
             latitude: data.location.latUser,
             longitude: data.location.lngUser,
+          };
+
+          setUserLocation({
+            ...location,
+            distance: getDistance(locationRef.current, location),
           });
         },
       );
@@ -62,11 +71,20 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
       socket.instance.on(
         'current_location_user',
         (data: CurrentLocationUserEventData) => {
+          if (!locationRef.current) {
+            return;
+          }
+
+          const location = {
+            latitude: data.location.latUser,
+            longitude: data.location.lngUser,
+          };
+
           assistanceIdRef.current = data.idAssistance;
           setStatus('helping');
           setUserLocation({
-            latitude: data.location.latUser,
-            longitude: data.location.lngUser,
+            ...location,
+            distance: getDistance(location, locationRef.current),
           });
 
           startSendingLocation(data);
@@ -138,6 +156,12 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
         idAssistance: assistanceData.idAssistance,
         idUser: assistanceData.location.idUser,
       };
+
+      setUserLocation((userLocation) =>
+        userLocation
+          ? { ...userLocation, distance: getDistance(userLocation, location) }
+          : undefined,
+      );
 
       socket.instance.emit('current_location_mechanic', data);
     };

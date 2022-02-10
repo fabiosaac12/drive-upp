@@ -8,6 +8,7 @@ import { Map } from 'components/Map';
 import { AskForAssistanceContent } from './AskForAssistanceContent';
 import { useUserAssistance } from 'providers/UserAssistance';
 import { useTheme } from 'providers/Theme';
+import { InAssistanceContent } from './InAssistanceContent';
 
 interface Props
   extends BottomTabScreenProps<SignedInBottomTabNavigatorProps, 'assistance'> {}
@@ -26,13 +27,10 @@ export const UserAssistanceScreen: FC<Props> = withLayout(() => {
       <View style={styles.contentContainer}>
         {assistance.status === 'inactive' ? (
           <AskForAssistanceContent />
+        ) : assistance.status === 'searching' ? (
+          <ActivityIndicator size="large" color={theme.palette.primary.main} />
         ) : (
-          assistance.status === 'searching' && (
-            <ActivityIndicator
-              size="large"
-              color={theme.palette.primary.main}
-            />
-          )
+          assistance.status === 'active' && <InAssistanceContent />
         )}
       </View>
     </View>

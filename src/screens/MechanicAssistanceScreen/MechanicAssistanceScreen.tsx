@@ -7,6 +7,8 @@ import { Map } from 'components/Map';
 import { SignedInBottomTabNavigatorProps } from 'navigation/SignedInBottomTabNavigator';
 import { ServiceActivatorContent } from './ServiceActivatorContent';
 import { useMechanicAssistance } from 'providers/MechanicAssistance';
+import { WaitingUserLocationContent } from './WaitingUserLocationContent';
+import { InAssistanceContent } from './InAssistanceContent';
 
 interface Props
   extends BottomTabScreenProps<SignedInBottomTabNavigatorProps, 'assistance'> {}
@@ -22,8 +24,11 @@ export const MechanicAssistanceScreen: FC<Props> = withLayout(() => {
       </View>
 
       <View style={styles.contentContainer}>
-        {assistance.status === 'waiting' ? null : assistance.status ===
-          'helping' ? null : (
+        {assistance.status === 'waiting' ? (
+          <WaitingUserLocationContent />
+        ) : assistance.status === 'helping' ? (
+          <InAssistanceContent />
+        ) : (
           <ServiceActivatorContent />
         )}
       </View>
