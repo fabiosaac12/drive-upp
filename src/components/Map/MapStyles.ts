@@ -8,4 +8,9 @@ export const useStyles = () =>
     map: {
       flex: 1,
     },
+    markerImage: {
+      height: 30,
+      width: 35,
+      resizeMode: 'contain',
+    },
   });

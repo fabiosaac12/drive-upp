@@ -6,12 +6,13 @@ import { useStyles } from './MapStyles';
 import { useLocation } from './hooks/useLocation';
 import { Location } from 'providers/Location/models/Location';
 import { FloatingActionIconButton } from 'components/FloatingActionIconButton';
-import { View } from 'react-native';
+import { Image, View } from 'react-native';
 import { usePermissions } from 'providers/Permissions';
 import { useTheme } from 'providers/Theme';
 import { useAuth } from 'providers/Auth';
 import { config } from 'config';
 import { Follow } from './Follow';
+import { images } from 'assets/images';
 
 interface Props {
   secondPoint?: Location;
@@ -82,11 +83,15 @@ export const Map: FC<Props> = ({ secondPoint }) => {
           <>
             <Marker
               coordinate={secondPoint}
-              onPress={(event) => {
-                console.log('touching marker');
-                setFollow('secondPoint');
-              }}
-            />
+              onPress={() => setFollow('secondPoint')}
+            >
+              <Image
+                style={styles.markerImage}
+                source={
+                  auth.user?.role === 'mechanic' ? images.bike : images.mechanic
+                }
+              />
+            </Marker>
 
             {/* <MapViewDirections
               origin={auth.user?.role === 'mechanic' ? location : secondPoint}
