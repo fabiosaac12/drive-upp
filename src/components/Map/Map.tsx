@@ -41,8 +41,6 @@ export const Map: FC<Props> = ({ secondPoint }) => {
   const [location, setLocation] = useState<Location>();
   const [follow, setFollow] = useState<Follow>('user');
 
-  console.log(follow);
-
   useEffect(() => {
     follow === 'secondPoint' &&
       mapRef.current?.animateCamera({

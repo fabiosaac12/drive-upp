@@ -33,7 +33,7 @@ export const MechanicCanHelpModal: FC<Props> = ({
           {messages.distance}
         </Text>
         <Text variant="title2" color="secondary">
-          {distance.value} {messages[distance.unit]}
+          {distance.value} {distance.unit}
         </Text>
       </View>
 

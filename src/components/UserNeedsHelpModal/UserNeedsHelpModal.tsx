@@ -28,7 +28,7 @@ export const UserNeedsHelpModal: FC<Props> = ({ onAccept, distance }) => {
           {messages.distance}
         </Text>
         <Text variant="title2" color="secondary">
-          {distance.value} {messages[distance.unit]}
+          {distance.value} {distance.unit}
         </Text>
       </View>
 

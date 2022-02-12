@@ -20,17 +20,20 @@ import { CurrentLocationUserEventData } from './models/CurrentLocationUserEventD
 import { LocationListener } from 'providers/Location/models/LocationListener';
 import { CurrentLocationMechanicEventData } from './models/CurrentLocationMechanicEventData';
 import { UserLocation } from './models/UserLocation';
+import { MechanicAssistanceCompleteModal } from 'components/MechanicAssistanceCompleteModal';
+import { useLocationMessages } from 'providers/Location/LocationMessages';
+import { Assistance } from './models/Assistance';
+import { CancelAssistanceEventData } from './models/CancelAssistanceEventData';
 
 export const MechanicAssistanceProvider: FC = ({ children }) => {
   const { locationRef, ...location } = useLocation();
+  const locationMessages = useLocationMessages();
   const auth = useAuth();
   const socket = useSocket();
   const modal = useModal();
   const [status, setStatus] = useState<Status>('inactive');
-  const assistanceIdRef = useRef<string>();
+  const assistanceRef = useRef<Assistance>();
   const [userLocation, setUserLocation] = useState<UserLocation>();
-
-  console.log({ userLocation });
 
   useEffect(() => {
     if (status === 'helping') {
@@ -48,15 +51,27 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
 
           setUserLocation({
             ...location,
-            distance: getDistance(locationRef.current, location),
+            distance: getDistance(
+              locationRef.current,
+              location,
+              locationMessages,
+            ),
           });
         },
       );
 
+      socket.instance.on('request_completed_confirm', () => {
+        setStatus('active');
+        setUserLocation(undefined);
+        assistanceRef.current = undefined;
+
+        modal.handleOpen({ content: <MechanicAssistanceCompleteModal /> });
+      });
+
       socket.instance.on('request_cancelled_user', () => {
         setStatus('active');
         setUserLocation(undefined);
-        assistanceIdRef.current = undefined;
+        assistanceRef.current = undefined;
       });
     }
 
@@ -80,11 +95,20 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
             longitude: data.location.lngUser,
           };
 
-          assistanceIdRef.current = data.idAssistance;
+          assistanceRef.current = {
+            idAssistance: data.idAssistance,
+            idUser: data.location.idUser,
+            idMechanic: data.idMechanic,
+          };
+
           setStatus('helping');
           setUserLocation({
             ...location,
-            distance: getDistance(location, locationRef.current),
+            distance: getDistance(
+              location,
+              locationRef.current,
+              locationMessages,
+            ),
           });
 
           startSendingLocation(data);
@@ -108,10 +132,14 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
         'mechanic_available',
         (userData: MechanicAvailableEventData) => {
           if (locationRef.current) {
-            const distance = getDistance(locationRef.current, {
-              latitude: userData.latUser,
-              longitude: userData.lngUser,
-            });
+            const distance = getDistance(
+              locationRef.current,
+              {
+                latitude: userData.latUser,
+                longitude: userData.lngUser,
+              },
+              locationMessages,
+            );
 
             modal.handleOpen({
               content: (
@@ -159,7 +187,10 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
 
       setUserLocation((userLocation) =>
         userLocation
-          ? { ...userLocation, distance: getDistance(userLocation, location) }
+          ? {
+              ...userLocation,
+              distance: getDistance(userLocation, location, locationMessages),
+            }
           : undefined,
       );
 
@@ -185,9 +216,18 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
       },
     };
 
-    console.log('mechanic_available_confirm', data);
     socket.instance.emit('mechanic_available_confirm', data);
     setStatus('waiting');
+  };
+
+  const cancelAssistance = () => {
+    if (assistanceRef.current) {
+      const data: CancelAssistanceEventData = assistanceRef.current;
+
+      socket.instance.emit('request_cancelled_mechanic', data);
+
+      setStatus('inactive');
+    }
   };
 
   const activeService = () => {
@@ -209,6 +249,7 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
     activeService,
     desactiveService,
     userLocation,
+    cancelAssistance,
   };
 
   return (

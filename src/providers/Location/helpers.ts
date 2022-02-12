@@ -1,7 +1,11 @@
 import { Distance } from './models/Distance';
 import { Location } from './models/Location';
 
-export const getDistance = (first: Location, second: Location): Distance => {
+export const getDistance = (
+  first: Location,
+  second: Location,
+  messages?: { kilometers: string; meters: string },
+): Distance => {
   const p = 0.017453292519943295;
   const c = Math.cos;
   const a =
@@ -17,7 +21,7 @@ export const getDistance = (first: Location, second: Location): Distance => {
   if (kilometers > 1) {
     return {
       value: Math.round(kilometers * 10) / 10,
-      unit: 'kilometers',
+      unit: messages ? messages.kilometers : 'kilometers',
     };
   }
 
@@ -25,6 +29,6 @@ export const getDistance = (first: Location, second: Location): Distance => {
 
   return {
     value: Math.round(meters),
-    unit: 'meters',
+    unit: messages ? messages.meters : 'meters',
   };
 };

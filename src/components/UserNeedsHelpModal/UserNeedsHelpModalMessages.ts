@@ -9,14 +9,6 @@ export const useMessages = defineMessages({
     en: 'Distance',
     es: 'Distancia: ',
   },
-  meters: {
-    en: 'meters',
-    es: 'metros',
-  },
-  kilometers: {
-    en: 'kilometers',
-    es: 'kilómetros',
-  },
   accept: {
     en: 'Accept',
     es: 'Aceptar',

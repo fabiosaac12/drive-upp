@@ -7,14 +7,11 @@ export const useStyles = makeStyles((theme) =>
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
-    },
-    buttonsContainer: {
-      marginTop: theme.spacing(2),
       flexDirection: 'row',
-      justifyContent: 'center',
     },
-    button: {
-      marginHorizontal: theme.spacing(1),
+    cancelingText: {
+      lineHeight: 18.5,
+      marginRight: theme.spacing(2),
     },
   }),
 );

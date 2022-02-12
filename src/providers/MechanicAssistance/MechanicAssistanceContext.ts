@@ -7,6 +7,7 @@ export type MechanicAssistanceContextProps = {
   userLocation?: UserLocation;
   activeService: () => void;
   desactiveService: () => void;
+  cancelAssistance: () => void;
 };
 
 export const MechanicAssistanceContext =
