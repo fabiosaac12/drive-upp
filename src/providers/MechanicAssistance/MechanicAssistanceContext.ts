@@ -4,7 +4,7 @@ import { UserLocation } from './models/UserLocation';
 
 export type MechanicAssistanceContextProps = {
   status: Status;
-  userLocation: UserLocation | undefined;
+  userLocation?: UserLocation;
   activeService: () => void;
   desactiveService: () => void;
 };

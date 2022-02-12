@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useRef, useEffect, useState } from 'react';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import React, { useRef, useEffect, useState, FC } from 'react';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
 import { useStyles } from './MapStyles';
 import { useLocation } from './hooks/useLocation';
 import { Location } from 'providers/Location/models/Location';
@@ -8,11 +9,19 @@ import { FloatingActionIconButton } from 'components/FloatingActionIconButton';
 import { View } from 'react-native';
 import { usePermissions } from 'providers/Permissions';
 import { useTheme } from 'providers/Theme';
+import { useAuth } from 'providers/Auth';
+import { config } from 'config';
+import { Follow } from './Follow';
 
-export const Map = () => {
+interface Props {
+  secondPoint?: Location;
+}
+
+export const Map: FC<Props> = ({ secondPoint }) => {
   const { theme } = useTheme();
   const styles = useStyles();
   const permissions = usePermissions();
+  const auth = useAuth();
 
   // const { location, watchPosition, stopWatchingPosition, watching } =
   //   useLocation();
@@ -29,15 +38,22 @@ export const Map = () => {
 
   const mapRef = useRef<MapView>();
   const [location, setLocation] = useState<Location>();
-  const [follow, setFollow] = useState(true);
+  const [follow, setFollow] = useState<Follow>('user');
+
+  console.log(follow);
 
   useEffect(() => {
-    follow &&
+    follow === 'secondPoint' &&
+      mapRef.current?.animateCamera({
+        center: secondPoint,
+      });
+
+    follow === 'user' &&
       location &&
       mapRef.current?.animateCamera({
         center: location,
       });
-  }, [follow, location]);
+  }, [follow, location, secondPoint]);
 
   return (
     <View style={styles.container}>
@@ -55,19 +71,40 @@ export const Map = () => {
         }
         showsMyLocationButton={false}
         minZoomLevel={16}
-        onTouchStart={() => setFollow(false)}
+        onTouchStart={() => setFollow(undefined)}
         // initialRegion={{
         //   ...location,
         //   latitudeDelta: 0.0922,
         //   longitudeDelta: 0.0421,
         // }}
-      />
+      >
+        {secondPoint && (
+          <>
+            <Marker
+              coordinate={secondPoint}
+              onPress={(event) => {
+                console.log('touching marker');
+                setFollow('secondPoint');
+              }}
+            />
+
+            {/* <MapViewDirections
+              origin={auth.user?.role === 'mechanic' ? location : secondPoint}
+              destination={
+                auth.user?.role === 'mechanic' ? secondPoint : location
+              }
+              apikey={config.googleMapsApiKey}
+            /> */}
+          </>
+        )}
+      </MapView>
+
       <FloatingActionIconButton
         color="primary"
         iconName="location-searching"
         variant="filled"
         position="br"
-        onPress={() => setFollow(true)}
+        onPress={() => setFollow('user')}
       />
     </View>
   );

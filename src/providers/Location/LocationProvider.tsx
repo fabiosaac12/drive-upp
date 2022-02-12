@@ -20,7 +20,7 @@ export const LocationProvider: FC = ({ children }) => {
         }
       },
       (error) => console.log(error),
-      { enableHighAccuracy: true },
+      { enableHighAccuracy: true, distanceFilter: 10 },
     );
 
     return () => {

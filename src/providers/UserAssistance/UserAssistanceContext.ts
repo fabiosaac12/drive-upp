@@ -3,7 +3,7 @@ import { MechanicLocation } from './models/MechanicLocation';
 import { Status } from './models/Status';
 
 export type UserAssistanceContextProps = {
-  mechanicLocation: MechanicLocation | undefined;
+  mechanicLocation?: MechanicLocation;
   status: Status;
   searchForHelp: () => void;
 };

@@ -20,7 +20,7 @@ export const MechanicAssistanceScreen: FC<Props> = withLayout(() => {
   return (
     <View style={styles.container}>
       <View style={styles.mapContainer}>
-        <Map />
+        <Map secondPoint={assistance.userLocation} />
       </View>
 
       <View style={styles.contentContainer}>
