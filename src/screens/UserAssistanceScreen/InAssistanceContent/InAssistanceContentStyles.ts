@@ -16,5 +16,15 @@ export const useStyles = makeStyles((theme) =>
     button: {
       marginHorizontal: theme.spacing(1),
     },
+    waitingContainer: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'row',
+      marginBottom: theme.spacing(1),
+    },
+    waitingText: {
+      lineHeight: 18.5,
+      marginRight: theme.spacing(2),
+    },
   }),
 );

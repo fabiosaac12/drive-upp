@@ -23,6 +23,7 @@ import { MechanicLocation } from './models/MechanicLocation';
 import { UserAssistanceCompleteModal } from 'components/UserAssistanceCompleteModal';
 import { useLocationMessages } from 'providers/Location/LocationMessages';
 import { Assistance } from './models/Assistance';
+import { getCurrentAssistance } from 'config/api/requests/assistance';
 
 export const UserAssistanceProvider: FC = ({ children }) => {
   const modal = useModal();
@@ -35,11 +36,21 @@ export const UserAssistanceProvider: FC = ({ children }) => {
   const [mechanicLocation, setMechanicLocation] = useState<MechanicLocation>();
 
   useEffect(() => {
-    console.log(socket.status, locationRef.current);
+    (async () => {
+      try {
+        const assistance = await getCurrentAssistance();
 
+        if (assistance) {
+          socket.connect();
+          assistanceRef.current = assistance;
+          setStatus('active');
+        }
+      } catch {}
+    })();
+  }, []);
+
+  useEffect(() => {
     if (socket.status === 'connected' && locationRef.current) {
-      console.log('search_help');
-
       socket.instance.emit('search_help', {
         lat: locationRef.current.latitude,
         lng: locationRef.current.longitude,
@@ -132,6 +143,8 @@ export const UserAssistanceProvider: FC = ({ children }) => {
             return;
           }
 
+          console.log('receiving location mechanic');
+
           const location = {
             latitude: data.location.latMechanic,
             longitude: data.location.lngMechanic,
@@ -165,6 +178,7 @@ export const UserAssistanceProvider: FC = ({ children }) => {
       return () => {
         socket.instance.off('current_location_mechanic');
         socket.instance.off('request_cancelled_mechanic');
+        socket.instance.off('request_completed_confirm');
       };
     }
   }, [status]);
@@ -210,6 +224,7 @@ export const UserAssistanceProvider: FC = ({ children }) => {
           : undefined,
       );
 
+      console.log('sending user location');
       socket.instance.emit('current_location_user', data);
     };
 

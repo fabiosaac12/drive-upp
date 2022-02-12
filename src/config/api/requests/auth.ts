@@ -19,8 +19,6 @@ export const refreshToken = async () => {
     },
   } = response;
 
-  console.log({ token });
-
   if (code !== 200) {
     throw code;
   }

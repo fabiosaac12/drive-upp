@@ -24,6 +24,7 @@ import { MechanicAssistanceCompleteModal } from 'components/MechanicAssistanceCo
 import { useLocationMessages } from 'providers/Location/LocationMessages';
 import { Assistance } from './models/Assistance';
 import { CancelAssistanceEventData } from './models/CancelAssistanceEventData';
+import { getCurrentAssistance } from 'config/api/requests/assistance';
 
 export const MechanicAssistanceProvider: FC = ({ children }) => {
   const { locationRef, ...location } = useLocation();
@@ -34,6 +35,36 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
   const [status, setStatus] = useState<Status>('inactive');
   const assistanceRef = useRef<Assistance>();
   const [userLocation, setUserLocation] = useState<UserLocation>();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const assistance = await getCurrentAssistance();
+
+        if (assistance) {
+          socket.connect();
+          assistanceRef.current = assistance;
+
+          if (locationRef.current) {
+            setUserLocation({
+              ...assistance.userLocation,
+              distance: getDistance(
+                locationRef.current,
+                assistance.userLocation,
+                locationMessages,
+              ),
+            });
+          }
+
+          setStatus('helping');
+        } else {
+          const defaultActive = await getItem<true>('mechanic_default_active');
+
+          defaultActive && activeService();
+        }
+      } catch {}
+    })();
+  }, []);
 
   useEffect(() => {
     if (status === 'helping') {
@@ -78,6 +109,7 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
     return () => {
       socket.instance.off('current_location_user');
       socket.instance.off('request_cancelled_user');
+      socket.instance.off('request_completed_confirm');
     };
   }, [status]);
 
@@ -110,8 +142,6 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
               locationMessages,
             ),
           });
-
-          startSendingLocation(data);
         },
       );
 
@@ -124,6 +154,16 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
       socket.instance.off('current_location_user');
       socket.instance.off('request_cancelled_user');
     };
+  }, [status]);
+
+  useEffect(() => {
+    if (status === 'helping') {
+      const locationListener = startSendingLocation();
+
+      return () => {
+        location.removeListener(locationListener);
+      };
+    }
   }, [status]);
 
   useEffect(() => {
@@ -160,29 +200,25 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
   }, [status]);
 
   useEffect(() => {
-    (async () => {
-      const defaultActive = await getItem<true>('mechanic_default_active');
-
-      defaultActive && activeService();
-    })();
-  }, []);
-
-  useEffect(() => {
-    socket.status === 'connected' && setStatus('active');
+    socket.status === 'connected' &&
+      status === 'activing' &&
+      setStatus('active');
   }, [socket.status]);
 
-  const startSendingLocation = (
-    assistanceData: CurrentLocationUserEventData,
-  ) => {
+  const startSendingLocation = () => {
     const locationListener: LocationListener = (location) => {
+      if (!assistanceRef.current) {
+        return;
+      }
+
       const data: CurrentLocationMechanicEventData = {
         location: {
-          idMechanic: assistanceData.idMechanic,
+          idMechanic: assistanceRef.current.idMechanic,
           latMechanic: location.latitude,
           lngMechanic: location.longitude,
         },
-        idAssistance: assistanceData.idAssistance,
-        idUser: assistanceData.location.idUser,
+        idAssistance: assistanceRef.current.idAssistance,
+        idUser: assistanceRef.current.idUser,
       };
 
       setUserLocation((userLocation) =>
@@ -194,6 +230,7 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
           : undefined,
       );
 
+      console.log('seinding mechanic location');
       socket.instance.emit('current_location_mechanic', data);
     };
 
