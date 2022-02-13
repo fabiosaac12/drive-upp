@@ -64,7 +64,7 @@ export const UserAssistanceProvider: FC = ({ children }) => {
         lng: locationRef.current.longitude,
       });
     }
-  }, [socket.status]);
+  }, [socket.status, location.enabled]);
 
   useEffect(() => {
     if (socket.status === 'connected') {
@@ -130,7 +130,7 @@ export const UserAssistanceProvider: FC = ({ children }) => {
         socket.instance.off('help_confirm');
       };
     }
-  }, [socket.status]);
+  }, [socket.status, location.enabled]);
 
   useEffect(() => {
     if (status === 'active' && socket.status === 'connected') {
@@ -140,7 +140,7 @@ export const UserAssistanceProvider: FC = ({ children }) => {
         location.removeListener(locationListener);
       };
     }
-  }, [status, socket.status]);
+  }, [status, socket.status, location.enabled]);
 
   useEffect(() => {
     if (status === 'active') {
@@ -189,7 +189,7 @@ export const UserAssistanceProvider: FC = ({ children }) => {
         socket.instance.off('request_completed_confirm');
       };
     }
-  }, [status]);
+  }, [status, location.enabled]);
 
   useEffect(() => {
     if (status === 'inactive') {

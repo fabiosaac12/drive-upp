@@ -1,4 +1,5 @@
 import React from 'react';
+import { LogBox } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { MainStackNavigator } from 'navigation/MainStackNavigator';
 import { LanguageProvider } from 'providers/Language';
@@ -10,6 +11,8 @@ import { AuthProvider } from 'providers/Auth';
 import { SocketProvider } from 'providers/Socket';
 import { LocationProvider } from 'providers/Location';
 import { RoleManager } from 'providers/RoleManager';
+
+LogBox.ignoreLogs(['new NativeEventEmitter']);
 
 export const App = () => (
   <SafeAreaProvider>

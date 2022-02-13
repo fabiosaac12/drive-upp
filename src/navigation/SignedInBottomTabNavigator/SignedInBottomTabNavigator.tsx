@@ -8,6 +8,8 @@ import { NoPermissionMapScreen } from 'screens/NoPermissionMapScreen';
 import { useAuth } from 'providers/Auth';
 import { MechanicAssistanceScreen } from 'screens/MechanicAssistanceScreen';
 import { UserAssistanceScreen } from 'screens/UserAssistanceScreen';
+import { useLocation } from 'providers/Location';
+import { NoLocationMapScreen } from 'screens/NoLocationMapScreen';
 
 export type SignedInBottomTabNavigatorProps = {
   assistance: undefined;
@@ -19,6 +21,7 @@ const Tab = createBottomTabNavigator<SignedInBottomTabNavigatorProps>();
 export const SignedInBottomTabNavigator = () => {
   const styles = useStyles();
   const permissions = usePermissions();
+  const location = useLocation();
   const auth = useAuth();
 
   if (!auth.user) {
@@ -41,9 +44,11 @@ export const SignedInBottomTabNavigator = () => {
         name="assistance"
         component={
           permissions.location?.status === 'granted'
-            ? auth.user.role === 'mechanic'
-              ? MechanicAssistanceScreen
-              : UserAssistanceScreen
+            ? location.enabled
+              ? auth.user.role === 'mechanic'
+                ? MechanicAssistanceScreen
+                : UserAssistanceScreen
+              : NoLocationMapScreen
             : NoPermissionMapScreen
         }
       />

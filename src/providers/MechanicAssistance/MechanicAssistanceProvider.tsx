@@ -70,7 +70,7 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
         defaultActive && activeService();
       }
     })();
-  }, []);
+  }, [location.enabled]);
 
   useEffect(() => {
     if (status === 'helping') {
@@ -117,7 +117,7 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
       socket.instance.off('request_cancelled_user');
       socket.instance.off('request_completed_confirm');
     };
-  }, [status]);
+  }, [status, location.enabled]);
 
   useEffect(() => {
     if (status === 'waiting') {
@@ -160,7 +160,7 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
       socket.instance.off('current_location_user');
       socket.instance.off('request_cancelled_user');
     };
-  }, [status]);
+  }, [status, location.enabled]);
 
   useEffect(() => {
     if (status === 'helping' && socket.status === 'connected') {
@@ -170,7 +170,7 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
         location.removeListener(locationListener);
       };
     }
-  }, [status, socket.status]);
+  }, [status, socket.status, location.enabled]);
 
   useEffect(() => {
     if (status === 'active') {
@@ -203,7 +203,7 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
     return () => {
       socket.instance.off('mechanic_available');
     };
-  }, [status]);
+  }, [status, location.enabled]);
 
   useEffect(() => {
     socket.status === 'connected' &&
