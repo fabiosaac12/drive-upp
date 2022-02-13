@@ -24,6 +24,30 @@ import { UserAssistanceCompleteModal } from 'components/UserAssistanceCompleteMo
 import { useLocationMessages } from 'providers/Location/LocationMessages';
 import { Assistance } from './models/Assistance';
 import { getCurrentAssistance } from 'config/api/requests/assistance';
+import Geolocation from 'react-native-geolocation-service';
+import BackgroundService, {
+  BackgroundTaskOptions,
+} from 'react-native-background-actions';
+
+const veryIntensiveTask = async () => {
+  await new Promise(async () => {
+    Geolocation.watchPosition(
+      (position) => console.log(position),
+      (error) => console.log(error),
+      { enableHighAccuracy: true },
+    );
+  });
+};
+
+const options: BackgroundTaskOptions = {
+  taskName: 'locationListener',
+  taskTitle: 'Asistencia en progreso',
+  taskDesc: 'Hay una asistencia en progreso. Toca para mas detalles.',
+  taskIcon: {
+    name: 'ic_launcher',
+    type: 'mipmap',
+  },
+};
 
 export const UserAssistanceProvider: FC = ({ children }) => {
   const modal = useModal();
@@ -39,6 +63,7 @@ export const UserAssistanceProvider: FC = ({ children }) => {
 
   useEffect(() => {
     (async () => {
+      await BackgroundService.start(veryIntensiveTask, options);
       try {
         setStatus('loading');
 
