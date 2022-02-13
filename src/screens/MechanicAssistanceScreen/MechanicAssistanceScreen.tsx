@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { withLayout } from 'hoc';
 import { useStyles } from './MechanicAssistanceScreenStyles';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
@@ -9,11 +9,13 @@ import { ServiceActivatorContent } from './ServiceActivatorContent';
 import { useMechanicAssistance } from 'providers/MechanicAssistance';
 import { WaitingUserLocationContent } from './WaitingUserLocationContent';
 import { InAssistanceContent } from './InAssistanceContent';
+import { useTheme } from 'providers/Theme';
 
 interface Props
   extends BottomTabScreenProps<SignedInBottomTabNavigatorProps, 'assistance'> {}
 
 export const MechanicAssistanceScreen: FC<Props> = withLayout(() => {
+  const { theme } = useTheme();
   const styles = useStyles();
   const assistance = useMechanicAssistance();
 
@@ -26,6 +28,8 @@ export const MechanicAssistanceScreen: FC<Props> = withLayout(() => {
       <View style={styles.contentContainer}>
         {assistance.status === 'waiting' ? (
           <WaitingUserLocationContent />
+        ) : assistance.status === 'loading' ? (
+          <ActivityIndicator size="large" color={theme.palette.primary.main} />
         ) : assistance.status === 'helping' ? (
           <InAssistanceContent />
         ) : (

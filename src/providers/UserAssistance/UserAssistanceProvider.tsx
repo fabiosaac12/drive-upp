@@ -35,17 +35,25 @@ export const UserAssistanceProvider: FC = ({ children }) => {
   const assistanceRef = useRef<Assistance>();
   const [mechanicLocation, setMechanicLocation] = useState<MechanicLocation>();
 
+  console.log('user', socket.status);
+
   useEffect(() => {
     (async () => {
       try {
+        setStatus('loading');
+
         const assistance = await getCurrentAssistance();
 
         if (assistance) {
           socket.connect();
           assistanceRef.current = assistance;
           setStatus('active');
+        } else {
+          throw null;
         }
-      } catch {}
+      } catch {
+        setStatus('inactive');
+      }
     })();
   }, []);
 
@@ -125,14 +133,14 @@ export const UserAssistanceProvider: FC = ({ children }) => {
   }, [socket.status]);
 
   useEffect(() => {
-    if (status === 'active') {
+    if (status === 'active' && socket.status === 'connected') {
       const locationListener = startSendingLocation();
 
       return () => {
         location.removeListener(locationListener);
       };
     }
-  }, [status]);
+  }, [status, socket.status]);
 
   useEffect(() => {
     if (status === 'active') {

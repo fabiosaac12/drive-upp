@@ -36,9 +36,13 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
   const assistanceRef = useRef<Assistance>();
   const [userLocation, setUserLocation] = useState<UserLocation>();
 
+  console.log('mechanic', socket.status);
+
   useEffect(() => {
     (async () => {
       try {
+        setStatus('loading');
+
         const assistance = await getCurrentAssistance();
 
         if (assistance) {
@@ -58,11 +62,13 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
 
           setStatus('helping');
         } else {
-          const defaultActive = await getItem<true>('mechanic_default_active');
-
-          defaultActive && activeService();
+          throw null;
         }
-      } catch {}
+      } catch {
+        const defaultActive = await getItem<true>('mechanic_default_active');
+
+        defaultActive && activeService();
+      }
     })();
   }, []);
 
@@ -157,14 +163,14 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
   }, [status]);
 
   useEffect(() => {
-    if (status === 'helping') {
+    if (status === 'helping' && socket.status === 'connected') {
       const locationListener = startSendingLocation();
 
       return () => {
         location.removeListener(locationListener);
       };
     }
-  }, [status]);
+  }, [status, socket.status]);
 
   useEffect(() => {
     if (status === 'active') {
@@ -268,7 +274,7 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
   };
 
   const activeService = () => {
-    if (status === 'inactive') {
+    if (['inactive', 'loading'].includes(status)) {
       socket.connect();
       setStatus('activing');
       setItem('mechanic_default_active', true);

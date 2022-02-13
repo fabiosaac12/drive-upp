@@ -27,7 +27,7 @@ export const UserAssistanceScreen: FC<Props> = withLayout(() => {
       <View style={styles.contentContainer}>
         {assistance.status === 'inactive' ? (
           <AskForAssistanceContent />
-        ) : assistance.status === 'searching' ? (
+        ) : ['searching', 'loading'].includes(assistance.status) ? (
           <ActivityIndicator size="large" color={theme.palette.primary.main} />
         ) : (
           assistance.status === 'active' && <InAssistanceContent />
