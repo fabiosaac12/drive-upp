@@ -18,13 +18,13 @@ import { useModal } from 'providers/Modal';
 import { UserNeedsHelpModal } from 'components/UserNeedsHelpModal';
 import { CurrentLocationUserEventData } from './models/CurrentLocationUserEventData';
 import { LocationListener } from 'providers/Location/models/LocationListener';
-import { CurrentLocationMechanicEventData } from './models/CurrentLocationMechanicEventData';
 import { UserLocation } from './models/UserLocation';
 import { MechanicAssistanceCompleteModal } from 'components/MechanicAssistanceCompleteModal';
 import { useLocationMessages } from 'providers/Location/LocationMessages';
 import { Assistance } from './models/Assistance';
 import { CancelAssistanceEventData } from './models/CancelAssistanceEventData';
 import { getCurrentAssistance } from 'config/api/requests/assistance';
+import { startBackgroundService, stopBackgroundService } from './helpers';
 
 export const MechanicAssistanceProvider: FC = ({ children }) => {
   const { locationRef, ...location } = useLocation();
@@ -67,19 +67,22 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
       } catch {
         const defaultActive = await getItem<true>('mechanic_default_active');
 
-        defaultActive && activeService();
+        defaultActive ? activeService() : setStatus('inactive');
       }
     })();
   }, [location.enabled]);
 
   useEffect(() => {
-    if (status === 'helping') {
+    if (status === 'helping' && socket.status === 'connected') {
+      console.log('starting listening user location');
       socket.instance.on(
         'current_location_user',
         (data: CurrentLocationUserEventData) => {
           if (!locationRef.current) {
             return;
           }
+
+          console.log('listening user location');
 
           const location = {
             latitude: data.location.latUser,
@@ -113,11 +116,12 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
     }
 
     return () => {
+      console.log('stopping listening user location');
       socket.instance.off('current_location_user');
       socket.instance.off('request_cancelled_user');
       socket.instance.off('request_completed_confirm');
     };
-  }, [status, location.enabled]);
+  }, [status, location.enabled, socket.status]);
 
   useEffect(() => {
     if (status === 'waiting') {
@@ -164,13 +168,17 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
 
   useEffect(() => {
     if (status === 'helping' && socket.status === 'connected') {
-      const locationListener = startSendingLocation();
+      const locationListener = startUpdatingDistance();
 
       return () => {
         location.removeListener(locationListener);
       };
     }
   }, [status, socket.status, location.enabled]);
+
+  useEffect(() => {
+    status === 'helping' ? startBackgroundService() : stopBackgroundService();
+  }, [status]);
 
   useEffect(() => {
     if (status === 'active') {
@@ -211,21 +219,21 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
       setStatus('active');
   }, [socket.status]);
 
-  const startSendingLocation = () => {
+  const startUpdatingDistance = () => {
     const locationListener: LocationListener = (location) => {
-      if (!assistanceRef.current) {
-        return;
-      }
+      // if (!assistanceRef.current) {
+      //   return;
+      // }
 
-      const data: CurrentLocationMechanicEventData = {
-        location: {
-          idMechanic: assistanceRef.current.idMechanic,
-          latMechanic: location.latitude,
-          lngMechanic: location.longitude,
-        },
-        idAssistance: assistanceRef.current.idAssistance,
-        idUser: assistanceRef.current.idUser,
-      };
+      // const data: CurrentLocationMechanicEventData = {
+      //   location: {
+      //     idMechanic: assistanceRef.current.idMechanic,
+      //     latMechanic: location.latitude,
+      //     lngMechanic: location.longitude,
+      //   },
+      //   idAssistance: assistanceRef.current.idAssistance,
+      //   idUser: assistanceRef.current.idUser,
+      // };
 
       setUserLocation((userLocation) =>
         userLocation
@@ -236,8 +244,8 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
           : undefined,
       );
 
-      console.log('seinding mechanic location');
-      socket.instance.emit('current_location_mechanic', data);
+      // console.log('seinding mechanic location');
+      // socket.instance.emit('current_location_mechanic', data);
     };
 
     location.addListener(locationListener);

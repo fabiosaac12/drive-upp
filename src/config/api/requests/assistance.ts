@@ -95,3 +95,22 @@ export const rateAssistance = async ({
 
   return true;
 };
+
+export const sendLocation = async ({ data }: { data: Location }) => {
+  const response = await instance.post<ApiResponse<{}>>(
+    'user/current-assistance/send-location',
+    data,
+  );
+
+  const {
+    data: {
+      headerResponse: { code },
+    },
+  } = response;
+
+  if (code !== 200) {
+    throw code;
+  }
+
+  return true;
+};

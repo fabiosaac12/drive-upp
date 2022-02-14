@@ -1,12 +1,12 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useRef, useState } from 'react';
 import { InfoModal } from 'components/InfoModal';
 import { MechanicCanHelpModal } from 'components/MechanicCanHelpModal';
 import { useLocation } from 'providers/Location';
 import { getDistance } from 'providers/Location/helpers';
 import { useModal } from 'providers/Modal';
 import { useSocket } from 'providers/Socket';
-import React, { useEffect, useRef, useState } from 'react';
 import { FC } from 'react';
 import { HelpConfirmEventData } from './models/HelpConfirmEventData';
 import { Status } from './models/Status';
@@ -15,7 +15,6 @@ import {
   UserAssistanceContextProps,
 } from './UserAssistanceContext';
 import { useMessages } from './UserAssistanceMessages';
-import { CurrentLocationUserEventData } from './models/CurrentLocationUserEventData';
 import { CancelAssistanceEventData } from './models/CancelAssistanceEventData';
 import { LocationListener } from 'providers/Location/models/LocationListener';
 import { CurrentLocationMechanicEventData } from './models/CurrentLocationMechanicEventData';
@@ -24,30 +23,7 @@ import { UserAssistanceCompleteModal } from 'components/UserAssistanceCompleteMo
 import { useLocationMessages } from 'providers/Location/LocationMessages';
 import { Assistance } from './models/Assistance';
 import { getCurrentAssistance } from 'config/api/requests/assistance';
-import Geolocation from 'react-native-geolocation-service';
-import BackgroundService, {
-  BackgroundTaskOptions,
-} from 'react-native-background-actions';
-
-const veryIntensiveTask = async () => {
-  await new Promise(async () => {
-    Geolocation.watchPosition(
-      (position) => console.log(position),
-      (error) => console.log(error),
-      { enableHighAccuracy: true },
-    );
-  });
-};
-
-const options: BackgroundTaskOptions = {
-  taskName: 'locationListener',
-  taskTitle: 'Asistencia en progreso',
-  taskDesc: 'Hay una asistencia en progreso. Toca para mas detalles.',
-  taskIcon: {
-    name: 'ic_launcher',
-    type: 'mipmap',
-  },
-};
+import { startBackgroundService, stopBackgroundService } from './helpers';
 
 export const UserAssistanceProvider: FC = ({ children }) => {
   const modal = useModal();
@@ -63,7 +39,6 @@ export const UserAssistanceProvider: FC = ({ children }) => {
 
   useEffect(() => {
     (async () => {
-      // await BackgroundService.start(veryIntensiveTask, options);
       try {
         setStatus('loading');
 
@@ -159,7 +134,7 @@ export const UserAssistanceProvider: FC = ({ children }) => {
 
   useEffect(() => {
     if (status === 'active' && socket.status === 'connected') {
-      const locationListener = startSendingLocation();
+      const locationListener = startUpdatingDistance();
 
       return () => {
         location.removeListener(locationListener);
@@ -168,7 +143,14 @@ export const UserAssistanceProvider: FC = ({ children }) => {
   }, [status, socket.status, location.enabled]);
 
   useEffect(() => {
-    if (status === 'active') {
+    status === 'active' ? startBackgroundService() : stopBackgroundService();
+  }, [status]);
+
+  console.log(status);
+
+  useEffect(() => {
+    if (status === 'active' && socket.status === 'connected') {
+      console.log('starting receiving location mechanic');
       socket.instance.on(
         'current_location_mechanic',
         (data: CurrentLocationMechanicEventData) => {
@@ -215,12 +197,13 @@ export const UserAssistanceProvider: FC = ({ children }) => {
       });
 
       return () => {
+        console.log('stopping receiving location mechanic');
         socket.instance.off('current_location_mechanic');
         socket.instance.off('request_cancelled_mechanic');
         socket.instance.off('request_completed_confirm');
       };
     }
-  }, [status, location.enabled]);
+  }, [status, location.enabled, socket.status]);
 
   useEffect(() => {
     if (status === 'inactive') {
@@ -234,21 +217,21 @@ export const UserAssistanceProvider: FC = ({ children }) => {
     }
   }, [status]);
 
-  const startSendingLocation = () => {
+  const startUpdatingDistance = () => {
     const locationListener: LocationListener = (location) => {
-      if (!assistanceRef.current) {
-        return;
-      }
+      // if (!assistanceRef.current) {
+      //   return;
+      // }
 
-      const data: CurrentLocationUserEventData = {
-        location: {
-          idUser: assistanceRef.current.idUser,
-          latUser: location.latitude,
-          lngUser: location.longitude,
-        },
-        idAssistance: assistanceRef.current.idAssistance,
-        idMechanic: assistanceRef.current.idMechanic,
-      };
+      // const data: CurrentLocationUserEventData = {
+      //   location: {
+      //     idUser: assistanceRef.current.idUser,
+      //     latUser: location.latitude,
+      //     lngUser: location.longitude,
+      //   },
+      //   idAssistance: assistanceRef.current.idAssistance,
+      //   idMechanic: assistanceRef.current.idMechanic,
+      // };
 
       setMechanicLocation((mechanicLocation) =>
         mechanicLocation
@@ -263,8 +246,8 @@ export const UserAssistanceProvider: FC = ({ children }) => {
           : undefined,
       );
 
-      console.log('sending user location');
-      socket.instance.emit('current_location_user', data);
+      // console.log('sending user location');
+      // socket.instance.emit('current_location_user', data);
     };
 
     location.addListener(locationListener);

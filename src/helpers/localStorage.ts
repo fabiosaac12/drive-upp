@@ -18,13 +18,10 @@ export const getItem = async <T>(key: string): Promise<T | undefined> => {
 
 export const setItem = async (
   key: string,
-  value: string | any[] | object | boolean,
+  value: string | any[] | object | boolean | number,
 ) => {
   try {
-    await AsyncStorage.setItem(
-      key,
-      typeof value === 'string' ? value : JSON.stringify(value),
-    );
+    await AsyncStorage.setItem(key, JSON.stringify(value));
 
     return true;
   } catch {}

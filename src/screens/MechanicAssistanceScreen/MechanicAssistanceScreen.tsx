@@ -19,6 +19,8 @@ export const MechanicAssistanceScreen: FC<Props> = withLayout(() => {
   const styles = useStyles();
   const assistance = useMechanicAssistance();
 
+  console.log(assistance.status);
+
   return (
     <View style={styles.container}>
       <View style={styles.mapContainer}>
