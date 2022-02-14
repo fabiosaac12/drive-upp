@@ -5,8 +5,13 @@ import { Button } from '../Button';
 import { Text } from '../Text';
 import { useMessages } from './UserAssistanceCompleteModalMessages';
 import { useStyles } from './UserAssistanceCompleteModalStyles';
+import { RateAssistanceModal } from 'components/RateAssistanceModal';
 
-export const UserAssistanceCompleteModal: FC = () => {
+interface Props {
+  assistanceId?: string;
+}
+
+export const UserAssistanceCompleteModal: FC<Props> = ({ assistanceId }) => {
   const styles = useStyles();
   const messages = useMessages();
   const modal = useModal();
@@ -22,12 +27,18 @@ export const UserAssistanceCompleteModal: FC = () => {
       </Text>
 
       <View style={styles.buttonsContainer}>
-        <Button
-          title={messages.rate}
-          color="primary"
-          text={{ style: styles.acceptButtonText }}
-          onPress={() => modal.handleHide()}
-        />
+        {assistanceId && (
+          <Button
+            title={messages.rate}
+            color="primary"
+            text={{ style: styles.acceptButtonText }}
+            onPress={() => {
+              modal.handleOpen({
+                content: <RateAssistanceModal assistanceId={assistanceId} />,
+              });
+            }}
+          />
+        )}
         <Button
           style={styles.acceptButton}
           title={messages.accept}

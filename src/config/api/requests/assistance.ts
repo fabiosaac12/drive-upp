@@ -46,3 +46,52 @@ export const getCurrentAssistance = async (): Promise<
     },
   };
 };
+
+type RateAssistanceResponse = {
+  destination: {
+    lat: number;
+    lng: number;
+  };
+  destinationAddress: {
+    city: string;
+    postcode: string;
+    country: string;
+    country_code: string;
+  };
+  score: {
+    user: number;
+    mechanic: number;
+  };
+  _id: string;
+  userId: string;
+  mechanicId: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export const rateAssistance = async ({
+  data: { assistanceId, punctuation },
+}: {
+  data: { assistanceId: string; punctuation: number };
+}) => {
+  const response = await instance.post<ApiResponse<RateAssistanceResponse>>(
+    'assistance/rate',
+    {
+      score: punctuation,
+      id_assistance: assistanceId,
+    },
+  );
+
+  const {
+    data: {
+      headerResponse: { code },
+    },
+  } = response;
+
+  if (code !== 200) {
+    throw code;
+  }
+
+  return true;
+};

@@ -63,7 +63,7 @@ export const UserAssistanceProvider: FC = ({ children }) => {
 
   useEffect(() => {
     (async () => {
-      await BackgroundService.start(veryIntensiveTask, options);
+      // await BackgroundService.start(veryIntensiveTask, options);
       try {
         setStatus('loading');
 
@@ -195,11 +195,17 @@ export const UserAssistanceProvider: FC = ({ children }) => {
       );
 
       socket.instance.on('request_completed_confirm', () => {
+        modal.handleOpen({
+          content: (
+            <UserAssistanceCompleteModal
+              assistanceId={assistanceRef.current?.idAssistance}
+            />
+          ),
+        });
+
         setStatus('inactive');
         setMechanicLocation(undefined);
         assistanceRef.current = undefined;
-
-        modal.handleOpen({ content: <UserAssistanceCompleteModal /> });
       });
 
       socket.instance.on('request_cancelled_mechanic', () => {

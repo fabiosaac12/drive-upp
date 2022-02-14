@@ -25,13 +25,13 @@ export const useStyles = makeStyles(
         backgroundColor:
           variant === 'filled'
             ? disabled
-              ? theme.palette.greys.main
+              ? theme.palette.greys[500]
               : color === 'background'
               ? theme.palette.background[300]
               : theme.palette[color].main
             : '#00000000',
         borderColor: disabled
-          ? theme.palette.greys.main
+          ? theme.palette.greys[500]
           : color === 'background'
           ? theme.palette.background[300]
           : theme.palette[color].main,
@@ -42,7 +42,7 @@ export const useStyles = makeStyles(
           variant === 'filled'
             ? theme.palette.text.button
             : disabled
-            ? theme.palette.greys.main
+            ? theme.palette.greys[500]
             : color === 'background'
             ? theme.palette.background[300]
             : theme.palette[color].main,
