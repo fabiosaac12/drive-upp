@@ -93,6 +93,7 @@ export const Map: FC<Props> = ({ secondPoint }) => {
 
             {/* <MapViewDirections
               origin={auth.user?.role === 'mechanic' ? location : secondPoint}
+              mode="BICYCLING"
               destination={
                 auth.user?.role === 'mechanic' ? secondPoint : location
               }

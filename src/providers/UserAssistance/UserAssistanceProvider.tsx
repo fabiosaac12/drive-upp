@@ -119,7 +119,7 @@ export const UserAssistanceProvider: FC = ({ children }) => {
                     distance,
                   });
                 }}
-                onReject={() => cancelAssistance()}
+                onReject={() => rejectAssistance(data)}
               />
             ),
           });
@@ -261,6 +261,18 @@ export const UserAssistanceProvider: FC = ({ children }) => {
 
       socket.instance.emit('request_completed_user', data);
     }
+  };
+
+  const rejectAssistance = (assistanceData: HelpConfirmEventData) => {
+    const data: CancelAssistanceEventData = {
+      idAssistance: assistanceData.idAssistance,
+      idMechanic: assistanceData.mechanic.idMechanic,
+      idUser: assistanceData.user.idUser,
+    };
+
+    socket.instance.emit('request_cancelled_user', data);
+
+    setStatus('inactive');
   };
 
   const cancelAssistance = () => {

@@ -6,16 +6,26 @@ import { sendLocation } from 'config/api/requests/assistance';
 import { getItem, setItem } from 'helpers/localStorage';
 
 const startSendingLocation = async () => {
+  const locationWatcher: Geolocation.SuccessCallback = async (position) => {
+    try {
+      console.log(
+        'done from mechanic',
+        await sendLocation({ data: position.coords }),
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  Geolocation.getCurrentPosition(
+    locationWatcher,
+    (error) => console.log(error),
+    { enableHighAccuracy: true },
+  );
+
   await new Promise(async (_resolve) => {
     const locationWatcherId = Geolocation.watchPosition(
-      async (position) => {
-        try {
-          console.log(
-            'done from mechanic',
-            await sendLocation({ data: position.coords }),
-          );
-        } catch {}
-      },
+      locationWatcher,
       (error) => console.log(error),
       { enableHighAccuracy: true },
     );
