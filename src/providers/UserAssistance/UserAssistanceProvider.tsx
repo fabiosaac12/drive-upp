@@ -35,8 +35,6 @@ export const UserAssistanceProvider: FC = ({ children }) => {
   const assistanceRef = useRef<Assistance>();
   const [mechanicLocation, setMechanicLocation] = useState<MechanicLocation>();
 
-  console.log('user', socket.status);
-
   useEffect(() => {
     (async () => {
       try {
@@ -146,19 +144,14 @@ export const UserAssistanceProvider: FC = ({ children }) => {
     status === 'active' ? startBackgroundService() : stopBackgroundService();
   }, [status]);
 
-  console.log(status);
-
   useEffect(() => {
     if (status === 'active' && socket.status === 'connected') {
-      console.log('starting receiving location mechanic');
       socket.instance.on(
         'current_location_mechanic',
         (data: CurrentLocationMechanicEventData) => {
           if (!locationRef.current) {
             return;
           }
-
-          console.log('receiving location mechanic');
 
           const location = {
             latitude: data.location.latMechanic,
@@ -197,7 +190,6 @@ export const UserAssistanceProvider: FC = ({ children }) => {
       });
 
       return () => {
-        console.log('stopping receiving location mechanic');
         socket.instance.off('current_location_mechanic');
         socket.instance.off('request_cancelled_mechanic');
         socket.instance.off('request_completed_confirm');

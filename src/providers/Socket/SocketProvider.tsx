@@ -7,15 +7,16 @@ import { SocketContext, SocketContextProps } from './SocketContext';
 import { useAuth } from 'providers/Auth';
 import { Status } from './models/Status';
 
+const socket = io(config.apiUrl, { autoConnect: false });
+
 export const SocketProvider: FC = ({ children }) => {
   const auth = useAuth();
-  const [socket] = useState(io(config.apiUrl, { autoConnect: false }));
   const [status, setStatus] = useState<Status>('disconnected');
 
   useEffect(() => {
     socket.on('connected_confirm', () => setStatus('connected'));
 
-    socket.on('error', console.log);
+    socket.on('error', (error) => console.log('socket error', error));
 
     return () => {
       socket.off();

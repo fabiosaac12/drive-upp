@@ -6,14 +6,26 @@ import { sendLocation } from 'config/api/requests/assistance';
 import { getItem, setItem } from 'helpers/localStorage';
 
 const startSendingLocation = async () => {
+  const locationWatcher: Geolocation.SuccessCallback = async (position) => {
+    try {
+      await sendLocation({ data: position.coords });
+    } catch (code) {
+      console.log('send location error', code);
+
+      code === 404 && console.log('not assistance');
+    }
+  };
+
+  Geolocation.getCurrentPosition(
+    locationWatcher,
+    (error) => console.log('geolocation error', error),
+    { enableHighAccuracy: true },
+  );
+
   await new Promise(async (_resolve) => {
     const locationWatcherId = Geolocation.watchPosition(
-      async (position) => {
-        try {
-          console.log('done', await sendLocation({ data: position.coords }));
-        } catch {}
-      },
-      (error) => console.log(error),
+      locationWatcher,
+      (error) => console.log('geolocation error', error),
       { enableHighAccuracy: true },
     );
 
@@ -32,17 +44,15 @@ export const startBackgroundService = () => {
     },
   };
 
-  console.log('starting background service');
-
   if (!BackgroundService.isRunning()) {
     BackgroundService.start(startSendingLocation, options);
   }
 };
 
 export const stopBackgroundService = async () => {
-  console.log('stopping background service');
-
-  BackgroundService.isRunning() && BackgroundService.stop();
+  if (BackgroundService.isRunning()) {
+    BackgroundService.stop();
+  }
 
   const locationWatcherId = await getItem<number>('locationWatcherId');
 

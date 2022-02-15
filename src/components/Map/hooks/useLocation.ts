@@ -9,7 +9,7 @@ export const useLocation = () => {
   const refreshLocation = () =>
     Geolocation.getCurrentPosition(
       (position) => setLocation(position.coords),
-      (error) => console.log(error),
+      (error) => console.log('geolocation error', error),
       { enableHighAccuracy: true },
     );
 
@@ -17,7 +17,7 @@ export const useLocation = () => {
     setWatchingId(
       Geolocation.watchPosition(
         (position) => setLocation(position.coords),
-        (error) => console.log(error),
+        (error) => console.log('geolocation error', error),
         { enableHighAccuracy: true, distanceFilter: 100 },
       ),
     );

@@ -36,8 +36,6 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
   const assistanceRef = useRef<Assistance>();
   const [userLocation, setUserLocation] = useState<UserLocation>();
 
-  console.log('mechanic', socket.status);
-
   useEffect(() => {
     (async () => {
       try {
@@ -74,15 +72,12 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
 
   useEffect(() => {
     if (status === 'helping' && socket.status === 'connected') {
-      console.log('starting listening user location');
       socket.instance.on(
         'current_location_user',
         (data: CurrentLocationUserEventData) => {
           if (!locationRef.current) {
             return;
           }
-
-          console.log('listening user location');
 
           const location = {
             latitude: data.location.latUser,
@@ -116,7 +111,6 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
     }
 
     return () => {
-      console.log('stopping listening user location');
       socket.instance.off('current_location_user');
       socket.instance.off('request_cancelled_user');
       socket.instance.off('request_completed_confirm');

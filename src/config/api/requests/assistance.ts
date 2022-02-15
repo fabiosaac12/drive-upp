@@ -85,11 +85,12 @@ export const rateAssistance = async ({
 
   const {
     data: {
-      headerResponse: { code },
+      headerResponse: { code, message },
     },
   } = response;
 
   if (code !== 200) {
+    console.log('rate assistance error', code, message);
     throw code;
   }
 
@@ -104,11 +105,12 @@ export const sendLocation = async ({ data }: { data: Location }) => {
 
   const {
     data: {
-      headerResponse: { code },
+      headerResponse: { code, message },
     },
   } = response;
 
   if (code !== 200) {
+    console.log('send location error', code, message);
     throw code;
   }
 

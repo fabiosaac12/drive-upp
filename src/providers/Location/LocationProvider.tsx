@@ -58,8 +58,6 @@ export const LocationProvider: FC = ({ children }) => {
 
     locationRef.current = position.coords;
 
-    console.log(position.coords);
-
     for (let listener of listeners) {
       listener(position.coords);
     }
