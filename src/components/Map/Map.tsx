@@ -3,16 +3,16 @@ import React, { useRef, useEffect, useState, FC } from 'react';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { useStyles } from './MapStyles';
-import { useLocation } from './hooks/useLocation';
 import { Location } from 'providers/Location/models/Location';
 import { FloatingActionIconButton } from 'components/FloatingActionIconButton';
 import { Image, View } from 'react-native';
-import { usePermissions } from 'providers/Permissions';
 import { useTheme } from 'providers/Theme';
 import { useAuth } from 'providers/Auth';
 import { config } from 'config';
 import { Follow } from './Follow';
 import { images } from 'assets/images';
+import { useLocation } from 'providers/Location';
+import { hexToRgba } from 'helpers/colors';
 
 interface Props {
   secondPoint?: Location;
@@ -21,38 +21,23 @@ interface Props {
 export const Map: FC<Props> = ({ secondPoint }) => {
   const { theme } = useTheme();
   const styles = useStyles();
-  const permissions = usePermissions();
   const auth = useAuth();
-
-  // const { location, watchPosition, stopWatchingPosition, watching } =
-  //   useLocation();
-
-  // useEffect(() => {
-  //   watchPosition();
-  // }, []);
+  const { addListener: addLocationListener } = useLocation();
+  const [location, setLocation] = useState<Location>();
+  const mapRef = useRef<MapView>();
+  const innerLocationRef = useRef<Location>();
+  const [follow, setFollow] = useState<Follow>('user');
 
   useEffect(() => {
-    if (permissions.location?.status !== 'granted') {
-      permissions.location?.request();
-    }
-  }, [permissions.location?.status]);
-
-  const mapRef = useRef<MapView>();
-  const [location, setLocation] = useState<Location>();
-  const [follow, setFollow] = useState<Follow>('user');
+    addLocationListener(setLocation);
+  }, []);
 
   useEffect(() => {
     follow === 'secondPoint' &&
       mapRef.current?.animateCamera({
         center: secondPoint,
       });
-
-    follow === 'user' &&
-      location &&
-      mapRef.current?.animateCamera({
-        center: location,
-      });
-  }, [follow, location, secondPoint]);
+  }, [follow, secondPoint]);
 
   return (
     <View style={styles.container}>
@@ -65,17 +50,17 @@ export const Map: FC<Props> = ({ secondPoint }) => {
         }}
         style={styles.map}
         showsUserLocation={true}
-        onUserLocationChange={(event) =>
-          setLocation(event.nativeEvent.coordinate)
-        }
+        onUserLocationChange={(event) => {
+          innerLocationRef.current = event.nativeEvent.coordinate;
+
+          follow === 'user' &&
+            mapRef.current?.animateCamera({
+              center: innerLocationRef.current,
+            });
+        }}
         showsMyLocationButton={false}
         minZoomLevel={16}
         onTouchStart={() => setFollow(undefined)}
-        // initialRegion={{
-        //   ...location,
-        //   latitudeDelta: 0.0922,
-        //   longitudeDelta: 0.0421,
-        // }}
       >
         {secondPoint && (
           <>
@@ -91,14 +76,17 @@ export const Map: FC<Props> = ({ secondPoint }) => {
               />
             </Marker>
 
-            {/* <MapViewDirections
+            <MapViewDirections
+              resetOnChange={false}
+              strokeWidth={8}
+              strokeColor={hexToRgba(theme.palette.primary.main, 0.8)}
               origin={auth.user?.role === 'mechanic' ? location : secondPoint}
-              mode="BICYCLING"
+              mode="DRIVING"
               destination={
                 auth.user?.role === 'mechanic' ? secondPoint : location
               }
               apikey={config.googleMapsApiKey}
-            /> */}
+            />
           </>
         )}
       </MapView>
@@ -108,7 +96,15 @@ export const Map: FC<Props> = ({ secondPoint }) => {
         iconName="location-searching"
         variant="filled"
         position="br"
-        onPress={() => setFollow('user')}
+        onPress={() => {
+          setFollow('user');
+
+          if (innerLocationRef.current) {
+            mapRef.current?.animateCamera({
+              center: innerLocationRef.current,
+            });
+          }
+        }}
       />
     </View>
   );
