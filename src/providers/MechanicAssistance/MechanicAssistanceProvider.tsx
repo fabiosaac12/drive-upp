@@ -261,6 +261,8 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
       socket.instance.emit('request_cancelled_mechanic', data);
 
       setStatus('inactive');
+      setUserLocation(undefined);
+      assistanceRef.current = undefined;
     }
   };
 

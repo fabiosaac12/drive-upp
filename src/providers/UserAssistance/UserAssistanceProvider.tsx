@@ -257,6 +257,8 @@ export const UserAssistanceProvider: FC = ({ children }) => {
       socket.instance.emit('request_cancelled_user', data);
 
       setStatus('inactive');
+      setMechanicLocation(undefined);
+      assistanceRef.current = undefined;
     }
   };
 
