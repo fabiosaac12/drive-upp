@@ -6,7 +6,7 @@ import { Text } from '../Text';
 import { PunctuationInput } from './PunctuationInput';
 import { useMessages } from './RateAssistanceModalMessages';
 import { useStyles } from './RateAssistanceModalStyles';
-import { rateAssistance as _rateAssistance } from 'config/api/requests/assistance';
+import { rateAssistance as _rateAssistance } from 'config/api/backend/requests/assistance';
 import { useRequest } from 'hooks/useRequest';
 
 interface Props {

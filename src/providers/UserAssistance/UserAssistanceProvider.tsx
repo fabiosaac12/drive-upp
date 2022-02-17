@@ -22,7 +22,7 @@ import { MechanicLocation } from './models/MechanicLocation';
 import { UserAssistanceCompleteModal } from 'components/UserAssistanceCompleteModal';
 import { useLocationMessages } from 'providers/Location/LocationMessages';
 import { Assistance } from './models/Assistance';
-import { getCurrentAssistance } from 'config/api/requests/assistance';
+import { getCurrentAssistance } from 'config/api/backend/requests/assistance';
 import { startBackgroundService, stopBackgroundService } from './helpers';
 
 export const UserAssistanceProvider: FC = ({ children }) => {

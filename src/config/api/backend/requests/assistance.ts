@@ -1,6 +1,6 @@
 import { Location } from 'providers/Location/models/Location';
 import { Assistance } from 'providers/UserAssistance/models/Assistance';
-import { instance } from '../instance';
+import { backend } from '../instance';
 import { ApiResponse } from './models/ApiResponse';
 
 type GetCurrentAssistanceResponse = {
@@ -17,9 +17,9 @@ type GetCurrentAssistanceResponse = {
 export const getCurrentAssistance = async (): Promise<
   (Assistance & { userLocation: Location }) | void
 > => {
-  const response = await instance.get<
-    ApiResponse<GetCurrentAssistanceResponse>
-  >('assistance/current');
+  const response = await backend.get<ApiResponse<GetCurrentAssistanceResponse>>(
+    'assistance/current',
+  );
 
   const {
     data: {
@@ -75,7 +75,7 @@ export const rateAssistance = async ({
 }: {
   data: { assistanceId: string; punctuation: number };
 }) => {
-  const response = await instance.post<ApiResponse<RateAssistanceResponse>>(
+  const response = await backend.post<ApiResponse<RateAssistanceResponse>>(
     'assistance/rate',
     {
       score: punctuation,
@@ -98,7 +98,7 @@ export const rateAssistance = async ({
 };
 
 export const sendLocation = async ({ data }: { data: Location }) => {
-  const response = await instance.post<ApiResponse<{}>>(
+  const response = await backend.post<ApiResponse<{}>>(
     'user/current-assistance/send-location',
     data,
   );

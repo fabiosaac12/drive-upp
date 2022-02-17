@@ -8,6 +8,7 @@ export const useStyles = makeStyles((theme) =>
       height: 200,
       borderRadius: 100,
       overflow: 'hidden',
+      backgroundColor: theme.palette.background.light,
       borderColor: theme.palette.primary.main,
       borderWidth: 2,
       justifyContent: 'center',

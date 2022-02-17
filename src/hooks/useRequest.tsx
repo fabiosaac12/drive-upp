@@ -79,10 +79,7 @@ export const useRequest = <T, U>(
             />
           ),
         });
-      console.log(
-        'request error',
-        code in messages ? messages[code] : messages.error,
-      );
+      console.log('request error', JSON.stringify(_code, null, 3));
     }
   };
 };

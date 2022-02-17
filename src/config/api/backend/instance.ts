@@ -3,7 +3,7 @@ import axios from 'axios';
 import { config } from 'config';
 import { getItem } from 'helpers/localStorage';
 
-export const instance = axios.create({
+export const backend = axios.create({
   baseURL: config.apiUrl,
   timeout: 60000,
   headers: {
@@ -11,7 +11,7 @@ export const instance = axios.create({
   },
 });
 
-instance.interceptors.request.use(
+backend.interceptors.request.use(
   async (config) => {
     const token = await getItem('token');
 

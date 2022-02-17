@@ -8,7 +8,7 @@ import {
   resetPassword as _resetPassword,
   logout as _logout,
   refreshToken as _refreshToken,
-} from 'config/api/requests/auth';
+} from 'config/api/backend/requests/auth';
 import { AuthContext, AuthContextProps } from './AuthContext';
 import { LoginData } from './models/LoginData';
 import { Status } from './models/Status';
@@ -49,8 +49,6 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   const [status, setStatus] = useState<Status>('pending');
   const [user, setUser] = useState<User>();
-
-  console.log(user);
 
   useEffect(() => {
     (async () => {

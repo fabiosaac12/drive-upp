@@ -4,11 +4,11 @@ import { RecoveryPasswordData } from 'providers/Auth/models/RecoveryPasswordData
 import { ResetPasswordData } from 'providers/Auth/models/ResetPasswordData';
 import { SignUpData } from 'providers/Auth/models/SignUpData';
 import { User } from 'providers/Auth/models/User';
-import { instance } from '../instance';
+import { backend } from '../instance';
 import { ApiResponse } from './models/ApiResponse';
 
 export const refreshToken = async () => {
-  const response = await instance.post<
+  const response = await backend.post<
     ApiResponse<{ user: User; token: string }>
   >('auth/refresh-token');
 
@@ -29,7 +29,7 @@ export const refreshToken = async () => {
 };
 
 export const login = async ({ data }: { data: LoginData }) => {
-  const response = await instance.post<
+  const response = await backend.post<
     ApiResponse<{ user: User; token: string }>
   >('auth/login', data);
 
@@ -50,7 +50,7 @@ export const login = async ({ data }: { data: LoginData }) => {
 };
 
 export const logout = async () => {
-  const response = await instance.post<ApiResponse<{}>>('auth/logout');
+  const response = await backend.post<ApiResponse<{}>>('auth/logout');
 
   const {
     data: {
@@ -66,7 +66,7 @@ export const logout = async () => {
 };
 
 export const signUp = async ({ data }: { data: SignUpData }) => {
-  const response = await instance.post<
+  const response = await backend.post<
     ApiResponse<{ emailSentSuccesfully: boolean }>
   >('auth/register', data);
 
@@ -89,7 +89,7 @@ export const recoveryPassword = async ({
 }: {
   data: RecoveryPasswordData;
 }) => {
-  const response = await instance.post<
+  const response = await backend.post<
     ApiResponse<{ emailSentSuccesfully: boolean }>
   >('auth/recoveryPassword/email', data);
 
@@ -108,7 +108,7 @@ export const recoveryPassword = async ({
 };
 
 export const resetPassword = async ({ data }: { data: ResetPasswordData }) => {
-  const response = await instance.post<ApiResponse<{}>>(
+  const response = await backend.post<ApiResponse<{}>>(
     'auth/recoveryPassword/reset',
     data,
   );

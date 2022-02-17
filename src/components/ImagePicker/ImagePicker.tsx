@@ -18,12 +18,14 @@ export const ImagePicker: FC<Props> = ({ setValue, value }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleTakePhoto = async () => {
+    setModalVisible(false);
     const photo = await takePhoto();
 
     setValue(photo);
   };
 
   const handlePickImageFromGallery = async () => {
+    setModalVisible(false);
     const image = await pickImageFromGallery();
 
     setValue(image);
@@ -38,7 +40,7 @@ export const ImagePicker: FC<Props> = ({ setValue, value }) => {
       {value ? (
         <Image style={styles.image} source={value} />
       ) : (
-        <Icon style={styles.noImageIcon} name="person" size={50} />
+        <Icon style={styles.noImageIcon} name="person" size={70} />
       )}
 
       <Modal

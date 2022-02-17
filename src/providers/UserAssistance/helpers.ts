@@ -2,7 +2,7 @@ import Geolocation from 'react-native-geolocation-service';
 import BackgroundService, {
   BackgroundTaskOptions,
 } from 'react-native-background-actions';
-import { sendLocation } from 'config/api/requests/assistance';
+import { sendLocation } from 'config/api/backend/requests/assistance';
 import { getItem, setItem } from 'helpers/localStorage';
 
 const startSendingLocation = async () => {
