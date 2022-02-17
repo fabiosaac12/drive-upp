@@ -96,11 +96,17 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
       );
 
       socket.instance.on('request_completed_confirm', () => {
+        modal.handleOpen({
+          content: (
+            <MechanicAssistanceCompleteModal
+              assistanceId={assistanceRef.current?.idAssistance}
+            />
+          ),
+        });
+
         setStatus('active');
         setUserLocation(undefined);
         assistanceRef.current = undefined;
-
-        modal.handleOpen({ content: <MechanicAssistanceCompleteModal /> });
       });
 
       socket.instance.on('request_cancelled_user', () => {
@@ -215,20 +221,6 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
 
   const startUpdatingDistance = () => {
     const locationListener: LocationListener = (location) => {
-      // if (!assistanceRef.current) {
-      //   return;
-      // }
-
-      // const data: CurrentLocationMechanicEventData = {
-      //   location: {
-      //     idMechanic: assistanceRef.current.idMechanic,
-      //     latMechanic: location.latitude,
-      //     lngMechanic: location.longitude,
-      //   },
-      //   idAssistance: assistanceRef.current.idAssistance,
-      //   idUser: assistanceRef.current.idUser,
-      // };
-
       setUserLocation((userLocation) =>
         userLocation
           ? {
@@ -237,9 +229,6 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
             }
           : undefined,
       );
-
-      // console.log('seinding mechanic location');
-      // socket.instance.emit('current_location_mechanic', data);
     };
 
     location.addListener(locationListener);

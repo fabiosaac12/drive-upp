@@ -10,13 +10,6 @@ export const useStyles = makeStyles((theme) =>
       marginBottom: theme.spacing(3),
       textTransform: 'none',
     },
-    distanceContainer: {
-      flexDirection: 'row',
-      marginBottom: theme.spacing(2),
-    },
-    distanceLabel: {
-      fontWeight: 'bold',
-    },
     buttonsContainer: {
       flexDirection: 'row',
       marginTop: theme.spacing(3),

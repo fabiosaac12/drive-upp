@@ -1,3 +1,4 @@
+import { RateAssistanceModal } from 'components/RateAssistanceModal';
 import React, { FC } from 'react';
 import { View } from 'react-native';
 import { useModal } from '../../providers/Modal';
@@ -6,7 +7,13 @@ import { Text } from '../Text';
 import { useMessages } from './MechanicAssistanceCompleteModalMessages';
 import { useStyles } from './MechanicAssistanceCompleteModalStyles';
 
-export const MechanicAssistanceCompleteModal: FC = () => {
+interface Props {
+  assistanceId?: string;
+}
+
+export const MechanicAssistanceCompleteModal: FC<Props> = ({
+  assistanceId,
+}) => {
   const styles = useStyles();
   const messages = useMessages();
   const modal = useModal();
@@ -21,12 +28,26 @@ export const MechanicAssistanceCompleteModal: FC = () => {
         {messages.description}
       </Text>
 
-      <Button
-        title={messages.accept}
-        style={styles.acceptButton}
-        color="primary"
-        onPress={() => modal.handleHide()}
-      />
+      <View style={styles.buttonsContainer}>
+        {assistanceId && (
+          <Button
+            title={messages.rate}
+            color="primary"
+            text={{ style: styles.acceptButtonText }}
+            onPress={() => {
+              modal.handleOpen({
+                content: <RateAssistanceModal assistanceId={assistanceId} />,
+              });
+            }}
+          />
+        )}
+        <Button
+          style={styles.acceptButton}
+          title={messages.accept}
+          onPress={() => modal.handleHide()}
+          text={{ style: styles.acceptButtonText }}
+        />
+      </View>
     </View>
   );
 };

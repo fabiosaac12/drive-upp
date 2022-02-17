@@ -50,6 +50,8 @@ export const AuthProvider: React.FC = ({ children }) => {
   const [status, setStatus] = useState<Status>('pending');
   const [user, setUser] = useState<User>();
 
+  console.log(user);
+
   useEffect(() => {
     (async () => {
       const user = await refreshToken({});

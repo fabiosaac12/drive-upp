@@ -7,7 +7,7 @@ export const useMessages = defineMessages({
   },
   description: {
     en: 'Remember to rate the mechanic!',
-    es: 'Recuerda calificar al mecánico!',
+    es: 'Probablemente recibas tu calificación en unos minutos. Recuerda calificar al mecánico!',
   },
   accept: {
     en: 'Accept',

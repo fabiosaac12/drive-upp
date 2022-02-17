@@ -10,8 +10,17 @@ export const useStyles = makeStyles((theme) =>
       marginBottom: theme.spacing(3),
       textTransform: 'none',
     },
-    acceptButton: {
+    buttonsContainer: {
+      flexDirection: 'row',
       marginTop: theme.spacing(3),
+    },
+    acceptButton: {
+      backgroundColor: theme.palette.white,
+      borderColor: theme.palette.white,
+      marginLeft: theme.spacing(2),
+    },
+    acceptButtonText: {
+      color: theme.palette.background[300],
     },
   }),
 );

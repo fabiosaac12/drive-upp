@@ -7,10 +7,14 @@ export const useMessages = defineMessages({
   },
   description: {
     en: 'Probably in a few moments you will receive the rating from the user.',
-    es: 'Probablemente en unos momentos recibirá la calificación del usuario.',
+    es: 'Probablemente en unos momentos recibirá la calificación del usuario. Realiza tu calificación tambien!',
   },
   accept: {
     en: 'Accept',
     es: 'Aceptar',
+  },
+  rate: {
+    en: 'Rate',
+    es: 'Calificar',
   },
 });

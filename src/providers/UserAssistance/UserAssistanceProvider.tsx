@@ -211,20 +211,6 @@ export const UserAssistanceProvider: FC = ({ children }) => {
 
   const startUpdatingDistance = () => {
     const locationListener: LocationListener = (location) => {
-      // if (!assistanceRef.current) {
-      //   return;
-      // }
-
-      // const data: CurrentLocationUserEventData = {
-      //   location: {
-      //     idUser: assistanceRef.current.idUser,
-      //     latUser: location.latitude,
-      //     lngUser: location.longitude,
-      //   },
-      //   idAssistance: assistanceRef.current.idAssistance,
-      //   idMechanic: assistanceRef.current.idMechanic,
-      // };
-
       setMechanicLocation((mechanicLocation) =>
         mechanicLocation
           ? {
@@ -237,9 +223,6 @@ export const UserAssistanceProvider: FC = ({ children }) => {
             }
           : undefined,
       );
-
-      // console.log('sending user location');
-      // socket.instance.emit('current_location_user', data);
     };
 
     location.addListener(locationListener);
