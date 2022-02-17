@@ -1,9 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
 import { images } from 'assets/images';
 import { AdvertisingBanner } from 'components/AdvertisingBanner';
+import { ImagePicker } from 'components/ImagePicker';
 import { useAuth } from 'providers/Auth';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { ScrollView, View } from 'react-native';
+import { Asset } from 'react-native-image-picker';
 import { withLayout } from '../../hoc';
 import { useMessages } from './HomeScreenMessages';
 import { useStyles } from './HomeScreenStyles';
@@ -20,13 +22,16 @@ export const HomeScreen: FC = withLayout(() => {
   const auth = useAuth();
   const messages = useMessages();
   const styles = useStyles();
+  const [value, setValue] = useState<Asset>();
 
   return (
     <ScrollView contentContainerStyle={styles.scrollView}>
       <View style={styles.container}>
-        <View style={{ flex: 1 }} />
+        <ImagePicker value={value} setValue={setValue} />
 
-        <AdvertisingBanner />
+        {/* <View style={{ flex: 1 }} /> */}
+
+        {/* <AdvertisingBanner />
 
         <View style={styles.row}>
           <MenuItem
@@ -54,7 +59,7 @@ export const HomeScreen: FC = withLayout(() => {
           />
         </View>
 
-        <View style={{ flex: 2 }} />
+        <View style={{ flex: 2 }} /> */}
       </View>
     </ScrollView>
   );
