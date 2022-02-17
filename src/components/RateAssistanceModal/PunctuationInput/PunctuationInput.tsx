@@ -16,7 +16,7 @@ export const PunctuationInput: FC<Props> = ({ value, setValue }) => {
     <View style={styles.container}>
       {[1, 2, 3, 4, 5].map((number) => (
         <TouchableOpacity
-          key={`${number}-star`}
+          key={`${number}-star-punctuation-input`}
           onPress={() => setValue(number)}
         >
           <Icon

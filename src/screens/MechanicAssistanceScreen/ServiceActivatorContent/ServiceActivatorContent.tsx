@@ -11,6 +11,7 @@ import { useMessages } from './ServiceActivatorContentMessages';
 import { useMechanicAssistance } from 'providers/MechanicAssistance';
 import { Text } from 'components/Text';
 import { useTheme } from 'providers/Theme';
+import { PunctuationVisualizer } from 'components/PunctuationVisualizer';
 
 export const ServiceActivatorContent = () => {
   const { theme } = useTheme();
