@@ -4,7 +4,7 @@ import { useMessages } from '../RecoveryPasswordFormMessages';
 import { useAuth } from 'providers/Auth';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { MainStackNavigatorParams } from 'navigation/MainStackNavigator';
+import { SignedOutStackNavigatorParams } from 'navigation/SignedOutStackNavigator';
 
 interface Props {
   initialValues: {
@@ -17,7 +17,10 @@ export const useForm = ({ initialValues }: Props) => {
   const messages = useMessages();
   const navigation =
     useNavigation<
-      NativeStackNavigationProp<MainStackNavigatorParams, 'recoveryPassword'>
+      NativeStackNavigationProp<
+        SignedOutStackNavigatorParams,
+        'recoveryPassword'
+      >
     >();
 
   const validationSchema = yup.object({

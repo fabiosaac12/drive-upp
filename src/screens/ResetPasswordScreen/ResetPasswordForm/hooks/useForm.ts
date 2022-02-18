@@ -3,9 +3,9 @@ import { useFormik } from 'formik';
 import { useMessages } from '../ResetPasswordFormMessages';
 import { useAuth } from 'providers/Auth';
 import { useNavigation } from '@react-navigation/native';
-import { MainStackNavigatorParams } from 'navigation/MainStackNavigator';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ResetPasswordData } from 'providers/Auth/models/ResetPasswordData';
+import { SignedOutStackNavigatorParams } from 'navigation/SignedOutStackNavigator';
 
 interface Props {
   initialValues: {
@@ -18,7 +18,7 @@ export const useForm = ({ initialValues: _initialValues }: Props) => {
   const messages = useMessages();
   const navigation =
     useNavigation<
-      NativeStackNavigationProp<MainStackNavigatorParams, 'resetPassword'>
+      NativeStackNavigationProp<SignedOutStackNavigatorParams, 'resetPassword'>
     >();
 
   const initialValues: ResetPasswordData = {

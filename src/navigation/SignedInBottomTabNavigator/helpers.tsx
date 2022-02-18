@@ -12,7 +12,7 @@ export const getTabBarIcon = (
 ) => {
   const icons: Record<keyof SignedInBottomTabNavigatorProps, string> = {
     assistance: 'location-on',
-    assistance2: 'location-on',
+    profile: 'person',
   };
 
   return <Icon name={icons[route]} size={25} color={color} />;

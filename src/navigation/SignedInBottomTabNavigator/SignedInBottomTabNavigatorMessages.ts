@@ -5,8 +5,8 @@ export const useMessages = defineMessages({
     en: 'Assistance',
     es: 'Asistencia',
   },
-  assistance2: {
-    en: 'Assistance',
-    es: 'Asistencia',
+  profile: {
+    en: 'Profile',
+    es: 'Perfil',
   },
 });

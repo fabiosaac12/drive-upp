@@ -8,4 +8,7 @@ export type User = {
   photo: string;
   role: 'mechanic' | 'user';
   createdAt: string;
+  scoreAverage: 3.5;
+  scoreCount: 2;
+  scorePoints: 7;
 };

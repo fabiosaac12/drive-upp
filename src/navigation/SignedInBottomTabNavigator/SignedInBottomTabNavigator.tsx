@@ -2,7 +2,6 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useStyles } from './SignedInBottomTabNavigatorStyles';
 import { getTabBarIcon, getTabBarLabel } from './helpers';
-import { HomeScreen } from 'screens/HomeScreen';
 import { usePermissions } from 'providers/Permissions';
 import { NoPermissionMapScreen } from 'screens/NoPermissionMapScreen';
 import { useAuth } from 'providers/Auth';
@@ -10,10 +9,12 @@ import { MechanicAssistanceScreen } from 'screens/MechanicAssistanceScreen';
 import { UserAssistanceScreen } from 'screens/UserAssistanceScreen';
 import { useLocation } from 'providers/Location';
 import { NoLocationMapScreen } from 'screens/NoLocationMapScreen';
+import { ProfileScreen } from 'screens/ProfileScreen';
+import { ProfileStackNavigator } from 'navigation/ProfileStackNavigator';
 
 export type SignedInBottomTabNavigatorProps = {
   assistance: undefined;
-  assistance2: undefined;
+  profile: undefined;
 };
 
 const Tab = createBottomTabNavigator<SignedInBottomTabNavigatorProps>();
@@ -52,7 +53,7 @@ export const SignedInBottomTabNavigator = () => {
             : NoPermissionMapScreen
         }
       />
-      <Tab.Screen name="assistance2" component={HomeScreen} />
+      <Tab.Screen name="profile" component={ProfileStackNavigator} />
     </Tab.Navigator>
   );
 };
