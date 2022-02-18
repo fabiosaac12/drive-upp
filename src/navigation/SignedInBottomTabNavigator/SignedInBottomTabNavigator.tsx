@@ -9,7 +9,6 @@ import { MechanicAssistanceScreen } from 'screens/MechanicAssistanceScreen';
 import { UserAssistanceScreen } from 'screens/UserAssistanceScreen';
 import { useLocation } from 'providers/Location';
 import { NoLocationMapScreen } from 'screens/NoLocationMapScreen';
-import { ProfileScreen } from 'screens/ProfileScreen';
 import { ProfileStackNavigator } from 'navigation/ProfileStackNavigator';
 
 export type SignedInBottomTabNavigatorProps = {

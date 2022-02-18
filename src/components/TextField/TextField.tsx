@@ -55,8 +55,12 @@ export const TextField: React.FC<Props> = ({
           focused && styles.focused,
           style,
           !!error && styles.withError,
+          disabled && styles.inputDisabled,
         ]}
-        placeholderTextColor={styles.placeholder.color}
+        placeholderTextColor={
+          disabled ? styles.disabled.color : styles.placeholder.color
+        }
+        editable={!disabled}
         {...props}
       />
       <Text

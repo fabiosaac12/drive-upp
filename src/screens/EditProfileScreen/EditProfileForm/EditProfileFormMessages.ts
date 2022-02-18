@@ -61,6 +61,10 @@ export const useMessages = defineMessages({
     en: 'Enter the password again',
     es: 'Ingresa la contraseña nuevamente',
   },
+  updatePasswordLabel: {
+    en: 'Update password',
+    es: 'Actualizar contraseña',
+  },
   requiredError: {
     en: 'Is required',
     es: 'Es requerido',

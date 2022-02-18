@@ -7,7 +7,7 @@ import { ProfileStackNavigatorParams } from 'navigation/ProfileStackNavigator';
 import { useAuth } from 'providers/Auth';
 import React from 'react';
 import { Image, ScrollView, View } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useMessages } from './ProfileScreenMessages';
 import { useStyles } from './ProfileScreenStyles';
 
@@ -22,6 +22,8 @@ export const ProfileScreen = withLayout<Props>(({ navigation }) => {
   if (!auth.user) {
     return null;
   }
+
+  console.log(auth.user);
 
   return (
     <>
@@ -40,7 +42,7 @@ export const ProfileScreen = withLayout<Props>(({ navigation }) => {
           {Object.keys(auth.user).map(
             (key) =>
               key in messages && (
-                <View style={styles.field}>
+                <View key={`${key}-profile-screen`} style={styles.field}>
                   <Text variant="subtitle" style={styles.label}>
                     {messages[key as keyof typeof messages]}
                   </Text>

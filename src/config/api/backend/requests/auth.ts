@@ -1,4 +1,5 @@
 import { removeItem, setItem } from 'helpers/localStorage';
+import { EditProfileData } from 'providers/Auth/models/EditProfileData';
 import { LoginData } from 'providers/Auth/models/LoginData';
 import { RecoveryPasswordData } from 'providers/Auth/models/RecoveryPasswordData';
 import { ResetPasswordData } from 'providers/Auth/models/ResetPasswordData';
@@ -112,6 +113,26 @@ export const resetPassword = async ({ data }: { data: ResetPasswordData }) => {
     'auth/recoveryPassword/reset',
     data,
   );
+
+  const {
+    data: {
+      headerResponse: { code },
+    },
+  } = response;
+
+  if (code !== 200) {
+    throw code;
+  }
+
+  return true;
+};
+
+export const editProfile = async ({ data }: { data: EditProfileData }) => {
+  console.log(data);
+
+  const response = await backend.post<ApiResponse<{}>>('user/update', data);
+
+  console.log(response.data);
 
   const {
     data: {

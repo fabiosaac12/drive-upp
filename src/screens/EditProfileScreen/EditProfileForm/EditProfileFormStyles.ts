@@ -22,5 +22,14 @@ export const useStyles = makeStyles((theme) =>
       alignItems: 'center',
       marginBottom: theme.spacing(2),
     },
+    checkBoxContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: theme.spacing(2),
+    },
+    checkBox: {
+      marginRight: theme.spacing(1),
+      marginLeft: theme.spacing(1),
+    },
   }),
 );

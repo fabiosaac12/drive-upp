@@ -18,6 +18,10 @@ export const useStyles = makeStyles((theme) =>
       borderRadius: theme.radius(1),
       backgroundColor: theme.palette.background.light,
     },
+    inputDisabled: {
+      color: theme.palette.greys[500],
+      backgroundColor: hexToRgba(theme.palette.greys[500], 0.1),
+    },
     withError: {
       color: theme.palette.danger.main,
     },
@@ -25,7 +29,7 @@ export const useStyles = makeStyles((theme) =>
       borderColor: hexToRgba(theme.palette.text.primary, 0.2),
     },
     disabled: {
-      color: theme.palette.greys[600],
+      color: theme.palette.greys[500],
     },
     placeholder: {
       color: theme.palette.greys[500],

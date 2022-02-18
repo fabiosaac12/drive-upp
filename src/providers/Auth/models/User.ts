@@ -5,7 +5,7 @@ export type User = {
   lastName: string;
   phone: string;
   rut: string;
-  photo: string;
+  photo?: string;
   role: 'mechanic' | 'user';
   createdAt: string;
   scoreAverage: 3.5;

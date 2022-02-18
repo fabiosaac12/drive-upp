@@ -8,6 +8,7 @@ import {
   resetPassword as _resetPassword,
   logout as _logout,
   refreshToken as _refreshToken,
+  editProfile as _editProfile,
 } from 'config/api/backend/requests/auth';
 import { AuthContext, AuthContextProps } from './AuthContext';
 import { LoginData } from './models/LoginData';
@@ -25,6 +26,7 @@ import { useModal } from 'providers/Modal';
 import { InfoModal } from 'components/InfoModal';
 import { RecoveryPasswordData } from './models/RecoveryPasswordData';
 import { ResetPasswordData } from './models/ResetPasswordData';
+import { EditProfileData } from './models/EditProfileData';
 
 export const AuthProvider: React.FC = ({ children }) => {
   const modal = useModal();
@@ -36,6 +38,7 @@ export const AuthProvider: React.FC = ({ children }) => {
   const login = useRequest(_login, { customMessages: loginMessages });
   const signUp = useRequest(_signUp, { customMessages: signUpMessages });
   const logout = useRequest(_logout, { showErrorModal: false });
+  const editProfile = useRequest(_editProfile);
   const refreshToken = useRequest(_refreshToken, {
     showErrorModal: false,
     showLoader: false,
@@ -121,6 +124,27 @@ export const AuthProvider: React.FC = ({ children }) => {
     return !!done;
   };
 
+  const handleEditProfile = async (data: EditProfileData) => {
+    const done = await editProfile({ data });
+
+    if (done) {
+      setUser((user) =>
+        user
+          ? {
+              ...user,
+              email: data.email,
+              name: data.name,
+              lastName: data.lastName,
+              phone: data.phone,
+              photo: data.photo,
+            }
+          : user,
+      );
+    }
+
+    return !!done;
+  };
+
   const contextValue: AuthContextProps = {
     status,
     user,
@@ -128,6 +152,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     handleLogout,
     handleSignUp,
     handleRecoveryPassword,
+    handleEditProfile,
     handleResetPassword,
   };
 

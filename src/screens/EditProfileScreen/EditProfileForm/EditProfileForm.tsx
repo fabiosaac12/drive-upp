@@ -1,4 +1,5 @@
 import React from 'react';
+import CheckBox from '@react-native-community/checkbox';
 import { useMessages } from './EditProfileFormMessages';
 import { TextField } from 'components/TextField';
 import { Button } from 'components/Button';
@@ -19,7 +20,10 @@ export const EditProfileForm = () => {
       <View style={styles.imagePicker}>
         <ImagePicker
           value={form.values.photo}
-          setValue={(value) => form.setFieldValue('photo', value)}
+          setValue={(value) => {
+            form.setFieldValue('localPhoto', true);
+            form.setFieldValue('photo', value);
+          }}
         />
       </View>
       <TextField
@@ -65,7 +69,20 @@ export const EditProfileForm = () => {
           placeholder={messages.phonePlaceholder}
         />
       </View>
-      {/* <TextField
+
+      <View style={styles.checkBoxContainer}>
+        <CheckBox
+          value={form.values.updatePassword}
+          onValueChange={(value: boolean) =>
+            form.setFieldValue('updatePassword', value)
+          }
+          style={styles.checkBox}
+        />
+        <Text color="text2">{messages.updatePasswordLabel}</Text>
+      </View>
+
+      <TextField
+        disabled={!form.values.updatePassword}
         secureTextEntry={true}
         value={form.values.password}
         error={form.touched.password ? form.errors.password : undefined}
@@ -74,6 +91,7 @@ export const EditProfileForm = () => {
         placeholder={messages.passwordPlaceholder}
       />
       <TextField
+        disabled={!form.values.updatePassword}
         secureTextEntry={true}
         value={form.values.passwordConfirmation}
         error={
@@ -86,7 +104,7 @@ export const EditProfileForm = () => {
         }
         label={messages.passwordConfirmationLabel}
         placeholder={messages.passwordConfirmationPlaceholder}
-      /> */}
+      />
 
       <Button
         size="big"
