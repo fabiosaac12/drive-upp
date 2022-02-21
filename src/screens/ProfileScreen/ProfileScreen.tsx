@@ -23,8 +23,6 @@ export const ProfileScreen = withLayout<Props>(({ navigation }) => {
     return null;
   }
 
-  console.log(auth.user);
-
   return (
     <>
       <ScrollView>

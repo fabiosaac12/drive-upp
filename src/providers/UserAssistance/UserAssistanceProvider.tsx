@@ -24,6 +24,7 @@ import { useLocationMessages } from 'providers/Location/LocationMessages';
 import { Assistance } from './models/Assistance';
 import { getCurrentAssistance } from 'config/api/backend/requests/assistance';
 import { startBackgroundService, stopBackgroundService } from './helpers';
+import { Mechanic } from './models/Mechanic';
 
 export const UserAssistanceProvider: FC = ({ children }) => {
   const modal = useModal();
@@ -89,6 +90,13 @@ export const UserAssistanceProvider: FC = ({ children }) => {
   useEffect(() => {
     if (socket.status === 'connected') {
       socket.instance.on('help_confirm', (data: HelpConfirmEventData) => {
+        console.log('help_confirm', data);
+        const mechanic: Mechanic = {
+          name: data.mechanic.fullName,
+          photoUrl: data.mechanic.photo,
+          rating: data.mechanic.rating,
+        };
+
         if (locationRef.current) {
           const distance = getDistance(
             locationRef.current,
@@ -103,6 +111,7 @@ export const UserAssistanceProvider: FC = ({ children }) => {
             options: { onRequestClose: () => null },
             content: (
               <MechanicCanHelpModal
+                mechanic={mechanic}
                 distance={distance}
                 onAccept={() => {
                   assistanceRef.current = {

@@ -6,9 +6,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 interface Props {
   value: number;
+  starSize: number;
 }
 
-export const PunctuationVisualizer: FC<Props> = ({ value }) => {
+export const PunctuationVisualizer: FC<Props> = ({ value, starSize = 30 }) => {
   const styles = useStyles();
 
   return (
@@ -24,7 +25,7 @@ export const PunctuationVisualizer: FC<Props> = ({ value }) => {
               ? 'star-half-sharp'
               : 'star-outline'
           }
-          size={30}
+          size={starSize}
         />
       ))}
     </View>

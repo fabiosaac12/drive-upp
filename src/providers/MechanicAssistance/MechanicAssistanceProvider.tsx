@@ -25,6 +25,7 @@ import { Assistance } from './models/Assistance';
 import { CancelAssistanceEventData } from './models/CancelAssistanceEventData';
 import { getCurrentAssistance } from 'config/api/backend/requests/assistance';
 import { startBackgroundService, stopBackgroundService } from './helpers';
+import { User } from './models/User';
 
 export const MechanicAssistanceProvider: FC = ({ children }) => {
   const { locationRef, ...location } = useLocation();
@@ -185,6 +186,12 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
       socket.instance.on(
         'mechanic_available',
         (userData: MechanicAvailableEventData) => {
+          const user: User = {
+            name: userData.fullName,
+            photoUrl: userData.photo,
+            rating: userData.rating,
+          };
+
           if (locationRef.current) {
             const distance = getDistance(
               locationRef.current,
@@ -198,6 +205,7 @@ export const MechanicAssistanceProvider: FC = ({ children }) => {
             modal.handleOpen({
               content: (
                 <UserNeedsHelpModal
+                  user={user}
                   distance={distance}
                   onAccept={() => confirmAvailability(userData)}
                 />

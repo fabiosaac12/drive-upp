@@ -128,11 +128,7 @@ export const resetPassword = async ({ data }: { data: ResetPasswordData }) => {
 };
 
 export const editProfile = async ({ data }: { data: EditProfileData }) => {
-  console.log(data);
-
   const response = await backend.post<ApiResponse<{}>>('user/update', data);
-
-  console.log(response.data);
 
   const {
     data: {

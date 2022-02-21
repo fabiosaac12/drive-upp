@@ -12,6 +12,7 @@ export const useStyles = makeStyles((theme) =>
     },
     distanceContainer: {
       flexDirection: 'row',
+      marginTop: theme.spacing(2),
       marginBottom: theme.spacing(2),
     },
     distanceLabel: {

@@ -11,6 +11,7 @@ export const useStyles = makeStyles((theme) =>
       textTransform: 'none',
     },
     distanceContainer: {
+      marginTop: theme.spacing(2),
       flexDirection: 'row',
     },
     distanceLabel: {
