@@ -1,3 +1,4 @@
+import { AdvertisingProvider } from 'providers/Advertisements';
 import { useAuth } from 'providers/Auth';
 import { MechanicAssistanceProvider } from 'providers/MechanicAssistance';
 import { UserAssistanceProvider } from 'providers/UserAssistance';
@@ -10,7 +11,9 @@ export const RoleManager: FC = ({ children }) => {
   return role === 'mechanic' ? (
     <MechanicAssistanceProvider>{children}</MechanicAssistanceProvider>
   ) : role === 'user' ? (
-    <UserAssistanceProvider>{children}</UserAssistanceProvider>
+    <AdvertisingProvider>
+      <UserAssistanceProvider>{children}</UserAssistanceProvider>
+    </AdvertisingProvider>
   ) : (
     <>{children}</>
   );
