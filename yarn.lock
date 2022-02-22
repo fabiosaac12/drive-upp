@@ -5601,7 +5601,7 @@ prompts@^2.0.1, prompts@^2.4.0:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.6.0:
+prop-types@^15.6.0, prop-types@^15.6.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -5710,6 +5710,14 @@ react-native-image-picker@^4.7.3:
   version "4.7.3"
   resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-4.7.3.tgz#f5863b27bf2e76c83649dd8efea4598426bd04e8"
   integrity sha512-eRKm4wlsmZHmsWFyv77kYc2F+ZyEVqe0m7mqhsMzWk6TQT4FBDtEDxmRDDFq+ivCu/1QD+EPhmYcAIpeGr7Ekg==
+
+react-native-looped-carousel@^0.1.13:
+  version "0.1.13"
+  resolved "https://registry.yarnpkg.com/react-native-looped-carousel/-/react-native-looped-carousel-0.1.13.tgz#bc1f94ee818347ecfd573acd9710c84b2f450d1f"
+  integrity sha1-vB+U7oGDR+z9VzrNlxDISy9FDR8=
+  dependencies:
+    lodash.isequal "^4.5.0"
+    prop-types "^15.6.1"
 
 react-native-maps-directions@^1.8.0:
   version "1.8.0"

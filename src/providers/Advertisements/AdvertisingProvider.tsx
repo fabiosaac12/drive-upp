@@ -27,7 +27,10 @@ export const AdvertisingProvider: React.FC = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    const timeout = setTimeout(() => setVisible((visible) => !visible), 10000);
+    const timeout = setTimeout(
+      () => setVisible((visible) => !visible),
+      visible ? 15000 : 60000,
+    );
 
     return () => {
       clearTimeout(timeout);

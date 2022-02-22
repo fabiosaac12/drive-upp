@@ -12,7 +12,7 @@ import { SocketProvider } from 'providers/Socket';
 import { LocationProvider } from 'providers/Location';
 import { RoleManager } from 'providers/RoleManager';
 
-LogBox.ignoreLogs(['new NativeEventEmitter']);
+LogBox.ignoreLogs(['new NativeEventEmitter', 'componentWillReceiveProps']);
 
 export const App = () => (
   <SafeAreaProvider>

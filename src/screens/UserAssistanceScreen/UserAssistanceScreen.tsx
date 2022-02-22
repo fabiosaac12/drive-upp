@@ -9,6 +9,7 @@ import { AskForAssistanceContent } from './AskForAssistanceContent';
 import { useUserAssistance } from 'providers/UserAssistance';
 import { useTheme } from 'providers/Theme';
 import { InAssistanceContent } from './InAssistanceContent';
+import { AdvertisingBanner } from 'components/AdvertisingBanner';
 
 interface Props
   extends BottomTabScreenProps<SignedInBottomTabNavigatorProps, 'assistance'> {}
@@ -20,6 +21,8 @@ export const UserAssistanceScreen: FC<Props> = withLayout(() => {
 
   return (
     <View style={styles.container}>
+      <AdvertisingBanner />
+
       <View style={styles.mapContainer}>
         <Map secondPoint={assistance.mechanicLocation} />
       </View>
