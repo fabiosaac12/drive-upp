@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-shadow */
 import React, { useEffect, useState } from 'react';
+import SplashScreen from 'react-native-splash-screen';
 import {
   login as _login,
   signUp as _signUp,
@@ -52,6 +53,12 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   const [status, setStatus] = useState<Status>('pending');
   const [user, setUser] = useState<User>();
+
+  useEffect(() => {
+    if (status !== 'pending') {
+      SplashScreen.hide();
+    }
+  }, [status]);
 
   useEffect(() => {
     (async () => {

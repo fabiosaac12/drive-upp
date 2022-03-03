@@ -19,6 +19,8 @@ target 'DriveUpp' do
     :hermes_enabled => false
   )
 
+  pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
+
   target 'DriveUppTests' do
     inherit! :complete
     # Pods for testing

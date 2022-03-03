@@ -80,10 +80,16 @@ export const Map: FC<Props> = ({ secondPoint }) => {
               resetOnChange={false}
               strokeWidth={8}
               strokeColor={hexToRgba(theme.palette.primary.main, 0.8)}
-              origin={auth.user?.role === 'mechanic' ? location : secondPoint}
+              origin={
+                auth.user?.role === 'mechanic'
+                  ? location || innerLocationRef.current
+                  : secondPoint
+              }
               mode="DRIVING"
               destination={
-                auth.user?.role === 'mechanic' ? secondPoint : location
+                auth.user?.role === 'mechanic'
+                  ? secondPoint
+                  : location || innerLocationRef.current
               }
               apikey={config.googleMapsApiKey}
             />

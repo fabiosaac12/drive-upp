@@ -24,6 +24,9 @@ export const useStyles = makeStyles((theme) => {
       alignSelf: 'center',
       marginBottom: theme.spacing(2),
     },
+    punctuationContainer: {
+      alignItems: 'center',
+    },
     image: {
       width: '100%',
       height: '100%',

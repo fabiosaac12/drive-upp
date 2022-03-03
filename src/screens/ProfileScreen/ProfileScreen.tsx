@@ -35,7 +35,9 @@ export const ProfileScreen = withLayout<Props>(({ navigation }) => {
             )}
           </View>
 
-          <PunctuationVisualizer value={auth.user.scoreAverage} />
+          <View style={styles.punctuationContainer}>
+            <PunctuationVisualizer value={auth.user.scoreAverage} />
+          </View>
 
           {Object.keys(auth.user).map(
             (key) =>

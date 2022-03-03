@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 interface Props {
   value: number;
-  starSize: number;
+  starSize?: number;
 }
 
 export const PunctuationVisualizer: FC<Props> = ({ value, starSize = 30 }) => {
