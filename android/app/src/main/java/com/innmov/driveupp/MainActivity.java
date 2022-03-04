@@ -1,4 +1,4 @@
-package com.driveupp;
+package com.innmov.driveupp;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
