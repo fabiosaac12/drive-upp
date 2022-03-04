@@ -13,24 +13,20 @@ export const ThemeProvider: React.FC<Props> = ({
   children,
   defaultTheme = 'light',
 }) => {
-  const [themeName, setThemeName] = useState<AvailableThemes>(
-    Appearance.getColorScheme() || defaultTheme,
-  );
+  const [themeName, setThemeName] = useState<AvailableThemes>(defaultTheme);
 
   useEffect(() => {
-    (async () => {
-      const storedThemeName = await getItem<AvailableThemes>('theme');
-      storedThemeName && setThemeName(storedThemeName);
-    })();
-
-    AppState.addEventListener('change', async (state) => {
-      if (state === 'active') {
-        const storedThemeName = await getItem<AvailableThemes>('theme');
-
-        !storedThemeName &&
-          setThemeName(Appearance.getColorScheme() || themeName);
-      }
-    });
+    // (async () => {
+    //   const storedThemeName = await getItem<AvailableThemes>('theme');
+    //   storedThemeName && setThemeName(storedThemeName);
+    // })();
+    // AppState.addEventListener('change', async (state) => {
+    //   if (state === 'active') {
+    //     const storedThemeName = await getItem<AvailableThemes>('theme');
+    //     !storedThemeName &&
+    //       setThemeName(Appearance.getColorScheme() || themeName);
+    //   }
+    // });
   }, []);
 
   const changeTheme = (themeName: AvailableThemes) => {
