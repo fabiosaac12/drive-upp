@@ -55,6 +55,12 @@ export const ProfileScreen = withLayout<Props>(({ navigation }) => {
         </View>
       </ScrollView>
       <FloatingActionIconButton
+        iconName="logout"
+        position="bl"
+        color="danger"
+        onPress={auth.handleLogout}
+      />
+      <FloatingActionIconButton
         iconName="edit"
         position="br"
         onPress={() => navigation.navigate('edit')}
