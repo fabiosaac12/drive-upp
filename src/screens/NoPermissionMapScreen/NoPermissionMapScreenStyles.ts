@@ -14,6 +14,12 @@ export const useStyles = makeStyles((theme) =>
     contentContainer: {
       flex: 1,
       justifyContent: 'center',
+      textAlign: 'center',
+      paddingHorizontal: theme.spacing(2),
+    },
+    permissionsMessage: {
+      textAlign: 'center',
+      marginBottom: theme.spacing(2),
     },
     grantPermissionsButtonStyles: {
       alignSelf: 'center',

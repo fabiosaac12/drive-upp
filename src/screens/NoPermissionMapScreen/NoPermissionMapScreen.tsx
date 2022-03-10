@@ -9,6 +9,7 @@ import { useModal } from 'providers/Modal';
 import { openSettings } from 'react-native-permissions';
 import { InfoModal } from 'components/InfoModal';
 import { useTheme } from 'providers/Theme';
+import { Text } from 'components/Text';
 
 export const NoPermissionMapScreen = withLayout(() => {
   const { theme } = useTheme();
@@ -40,6 +41,13 @@ export const NoPermissionMapScreen = withLayout(() => {
       </View>
 
       <View style={styles.contentContainer}>
+        <Text
+          style={styles.permissionsMessage}
+          variant="body2"
+          color="secondary"
+        >
+          {messages.permissionsMessage}
+        </Text>
         <Button
           color="primary"
           onPress={askForLocationPermission}

@@ -36,11 +36,11 @@
 		</dict>
 	</dict>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-  <string>Necesitamos saber tu ubicacion para mostrar direcciones en el mapa</string>
+  <string>Drive Upp recopila datos de ubicación cuando una asistencia está activa para permitir el intercambio de ubicaciones entre el mecánico y el ciclista, incluso cuando la aplicación está cerrada o no está en uso.</string>
   <key>NSLocationAlwaysUsageDescription</key>
-  <string>Necesitamos saber siempre tu ubicacion para informarle al usuario</string>
+  <string>Drive Upp recopila datos de ubicación cuando una asistencia está activa para permitir el intercambio de ubicaciones entre el mecánico y el ciclista, incluso cuando la aplicación está cerrada o no está en uso.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Necesitamos saber tu ubicacion para mostrar direcciones en el mapa</string>
+  <string>Drive Upp recopila datos de ubicación cuando una asistencia está activa para permitir el intercambio de ubicaciones entre el mecánico y el ciclista, incluso cuando la aplicación está cerrada o no está en uso.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
