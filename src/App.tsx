@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { LogBox } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { MainStackNavigator } from 'navigation/MainStackNavigator';
@@ -11,29 +11,36 @@ import { AuthProvider } from 'providers/Auth';
 import { SocketProvider } from 'providers/Socket';
 import { LocationProvider } from 'providers/Location';
 import { RoleManager } from 'providers/RoleManager';
+import { startBackgroundService } from 'providers/UserAssistance/helpers';
 
 LogBox.ignoreLogs(['new NativeEventEmitter', 'componentWillReceiveProps']);
 
-export const App = () => (
-  <SafeAreaProvider>
-    <LanguageProvider defaultLanguage="es">
-      <LoaderProvider>
-        <PermissionsProvider>
-          <ThemeProvider defaultTheme="light">
-            <ModalProvider>
-              <LocationProvider>
-                <AuthProvider>
-                  <SocketProvider>
-                    <RoleManager>
-                      <MainStackNavigator />
-                    </RoleManager>
-                  </SocketProvider>
-                </AuthProvider>
-              </LocationProvider>
-            </ModalProvider>
-          </ThemeProvider>
-        </PermissionsProvider>
-      </LoaderProvider>
-    </LanguageProvider>
-  </SafeAreaProvider>
-);
+export const App = () => {
+  useEffect(() => {
+    startBackgroundService();
+  }, []);
+
+  return (
+    <SafeAreaProvider>
+      <LanguageProvider defaultLanguage="es">
+        <LoaderProvider>
+          <PermissionsProvider>
+            <ThemeProvider defaultTheme="light">
+              <ModalProvider>
+                <LocationProvider>
+                  <AuthProvider>
+                    <SocketProvider>
+                      <RoleManager>
+                        <MainStackNavigator />
+                      </RoleManager>
+                    </SocketProvider>
+                  </AuthProvider>
+                </LocationProvider>
+              </ModalProvider>
+            </ThemeProvider>
+          </PermissionsProvider>
+        </LoaderProvider>
+      </LanguageProvider>
+    </SafeAreaProvider>
+  );
+};

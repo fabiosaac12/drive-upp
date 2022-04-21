@@ -4,6 +4,9 @@ import BackgroundService, {
 } from 'react-native-background-actions';
 import { sendLocation } from 'config/api/backend/requests/assistance';
 import { getItem, setItem } from 'helpers/localStorage';
+import { DeviceEventEmitter } from 'react-native';
+import Beacons from 'react-native-beacons-manager';
+import BluetoothManager from 'react-native-ble-manager';
 
 const startSendingLocation = async () => {
   const locationWatcher: Geolocation.SuccessCallback = async (position) => {
@@ -33,6 +36,47 @@ const startSendingLocation = async () => {
   });
 };
 
+const startScanningBeacons = async () => {
+  await new Promise(async () => {
+    Beacons.detectIBeacons();
+
+    try {
+      await Beacons.startRangingBeaconsInRegion('REGION1');
+      console.log(`Beacons ranging started succesfully!`);
+    } catch (error) {
+      console.log(`Beacons ranging not started, error: ${error}`);
+    }
+
+    // Print a log of the detected iBeacons (1 per second)
+    DeviceEventEmitter.addListener('beaconsDidRange', (data) => {
+      console.log('Found beacons!', data.beacons);
+    });
+  });
+};
+
+const delay = (time: number) =>
+  new Promise<void>((resolve) => setTimeout(() => resolve(), time));
+
+const startScanningBluetoothDevices = async () => {
+  await new Promise(async () => {
+    while (true) {
+      await BluetoothManager.start({ showAlert: false });
+      console.log('Bluetooth service started');
+
+      await BluetoothManager.scan([], 5, true);
+      console.log('Scan started');
+
+      await delay(6000);
+
+      const peripheralsArray =
+        await BluetoothManager.getDiscoveredPeripherals();
+      console.log(
+        'Discovered peripherals: ' + JSON.stringify(peripheralsArray, null, 2),
+      );
+    }
+  });
+};
+
 export const startBackgroundService = () => {
   const options: BackgroundTaskOptions = {
     taskName: 'locationListener',
@@ -45,7 +89,7 @@ export const startBackgroundService = () => {
   };
 
   if (!BackgroundService.isRunning()) {
-    BackgroundService.start(startSendingLocation, options);
+    BackgroundService.start(startScanningBluetoothDevices, options);
   }
 };
 
