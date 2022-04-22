@@ -7,6 +7,7 @@ import { getItem, setItem } from 'helpers/localStorage';
 import { DeviceEventEmitter } from 'react-native';
 import Beacons from 'react-native-beacons-manager';
 import BluetoothManager from 'react-native-ble-manager';
+import { BleManager } from 'react-native-ble-plx';
 
 const startSendingLocation = async () => {
   const locationWatcher: Geolocation.SuccessCallback = async (position) => {
@@ -73,7 +74,29 @@ const startScanningBluetoothDevices = async () => {
       console.log(
         'Discovered peripherals: ' + JSON.stringify(peripheralsArray, null, 2),
       );
+
+      if (peripheralsArray.length > 0) {
+        await BluetoothManager.readRSSI(peripheralsArray[0].id);
+      }
     }
+  });
+};
+
+const startScanningBluetoothDevicesPlx = async () => {
+  await new Promise(async () => {
+    const manager = new BleManager();
+
+    manager.startDeviceScan(null, null, async (error, device) => {
+      if (error) {
+        console.log({ error });
+      } else {
+        console.log(device?.id, device?.name, device?.manufacturerData);
+
+        console.log(device?.serviceData);
+        console.log(device?.isConnectable);
+        console.log(device);
+      }
+    });
   });
 };
 
@@ -89,7 +112,7 @@ export const startBackgroundService = () => {
   };
 
   if (!BackgroundService.isRunning()) {
-    BackgroundService.start(startScanningBluetoothDevices, options);
+    BackgroundService.start(startScanningBluetoothDevicesPlx, options);
   }
 };
 
