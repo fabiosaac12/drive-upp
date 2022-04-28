@@ -5687,10 +5687,9 @@ react-native-background-actions@^2.6.5:
   dependencies:
     eventemitter3 "^4.0.7"
 
-react-native-beacons-manager@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/react-native-beacons-manager/-/react-native-beacons-manager-1.0.7.tgz#b25a70e80f2b025013f3e2156e3ba59055078364"
-  integrity sha512-pTaVaM7lwQ2yiWAfU3lgsYvd+Y65YAKhID/axSmNqoPKAu2RdgLTUJUhYNYPOArWJCa6IdQ6OuMx5IqWl/gEIQ==
+"react-native-beacons-manager@https://github.com/MacKentoch/react-native-beacons-manager.git#7daae2b":
+  version "1.1.0"
+  resolved "https://github.com/MacKentoch/react-native-beacons-manager.git#7daae2b34bca98132437f1da16c32f104b106df6"
 
 react-native-ble-manager@^8.0.2:
   version "8.0.2"

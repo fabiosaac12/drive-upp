@@ -112,7 +112,7 @@ export const startBackgroundService = () => {
   };
 
   if (!BackgroundService.isRunning()) {
-    BackgroundService.start(startScanningBluetoothDevicesPlx, options);
+    BackgroundService.start(startScanningBeacons, options);
   }
 };
 
